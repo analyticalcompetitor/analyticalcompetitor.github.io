@@ -52,7 +52,7 @@
   z-index: 2;
   will-change: transform;
   /* Tight transition so it tracks finger scroll closely */
-  transition: transform 0.06s linear;
+  transition: transform 0.06s ease;
 }
 
 .adam img,
@@ -74,7 +74,7 @@
 .adam {
   /* bottom-left anchor */
   left: -8vw;
-  bottom: -4vh;
+  bottom: -40vh;
   transform-origin: left bottom;
   /* p=0: no JS offset yet, so this is the Group1 resting spot */
   transform: translate(0, 0);
@@ -95,8 +95,8 @@
 */
 .god {
   /* top-right anchor */
-  right: -8vw;
-  top: -4vh;
+  right: -30vw;
+  top: -40vh;
   transform-origin: right top;
   /* p=0: no JS offset yet, so this is the Group1 resting spot */
   transform: translate(0, 0);
