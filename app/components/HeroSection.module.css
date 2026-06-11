@@ -1,24 +1,25 @@
-/* =========================================
-   HeroSection — Michelangelo Scroll Hero
-   ========================================= */
+/*
+  HeroSection.module.css
+  ─────────────────────────────────────────────────────────
+  Group 1 (start): arms FAR apart — God top-right, Adam bottom-left
+  Group 2 (end):   arms CLOSE — fingertips nearly touching at center
+  ─────────────────────────────────────────────────────────
+*/
 
-/* Tall wrapper gives the scroll room to breathe */
+/* ── Scroll container ── */
 .wrapper {
   position: relative;
   height: 300vh;
   width: 100%;
 }
 
-/* Sticky viewport — everything lives here */
+/* ── Sticky viewport ── */
 .sticky {
   position: sticky;
   top: 0;
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* ── Background ── */
@@ -26,165 +27,204 @@
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   z-index: 0;
 }
 
+/* Soft dark vignette around edges */
 .bg::after {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    ellipse at center,
-    transparent 35%,
-    rgba(0, 0, 0, 0.28) 100%
+    ellipse at 50% 50%,
+    transparent 30%,
+    rgba(15, 10, 5, 0.45) 100%
   );
+  z-index: 1;
 }
 
-/* ── Arms ── */
-.armLeft,
-.armRight {
+/* ── Shared arm base ── */
+.adam,
+.god {
   position: absolute;
-  top: 50%;
   z-index: 2;
   will-change: transform;
-  /* Smooth but fast so it tracks scroll tightly */
-  transition: transform 0.04s linear;
+  /* Tight transition so it tracks finger scroll closely */
+  transition: transform 0.06s linear;
 }
 
-.armLeft {
-  left: -2vw;
-  transform: translateY(-50%);
-  transform-origin: left center;
-}
-
-.armRight {
-  right: -2vw;
-  transform: translateY(-50%);
-  transform-origin: right center;
-}
-
-.armLeft img,
-.armRight img {
+.adam img,
+.god img {
   display: block;
-  width: clamp(280px, 54vw, 800px);
   height: auto;
   user-select: none;
-  -webkit-user-drag: none;
   pointer-events: none;
+  -webkit-user-drag: none;
 }
 
-/* ── Hero tagline ── */
+/*
+  ── Adam (left arm / bottom-left corner) ──
+  Group 1 starting position:
+    • Anchored to bottom-left
+    • Arm enters from lower-left, hand points up-right toward center
+  JS will translate it RIGHT + UP as scroll progresses → reaches Group 2 position
+*/
+.adam {
+  /* bottom-left anchor */
+  left: -8vw;
+  bottom: -4vh;
+  transform-origin: left bottom;
+  /* p=0: no JS offset yet, so this is the Group1 resting spot */
+  transform: translate(0, 0);
+}
+
+.adam img {
+  width: clamp(320px, 60vw, 860px);
+  /* Rotate so arm points diagonally up-right from lower-left */
+  transform: rotate(-12deg);
+}
+
+/*
+  ── God (right arm / top-right corner) ──
+  Group 1 starting position:
+    • Anchored to top-right
+    • Arm enters from upper-right, hand points down-left toward center
+  JS will translate it LEFT + DOWN as scroll progresses → reaches Group 2 position
+*/
+.god {
+  /* top-right anchor */
+  right: -8vw;
+  top: -4vh;
+  transform-origin: right top;
+  /* p=0: no JS offset yet, so this is the Group1 resting spot */
+  transform: translate(0, 0);
+}
+
+.god img {
+  width: clamp(320px, 60vw, 860px);
+  /* Rotate so arm points diagonally down-left from upper-right */
+  transform: rotate(-12deg);
+}
+
+/* ── Center title ── */
 .title {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 5;
-  text-align: center;
+  pointer-events: auto;
   will-change: opacity;
-  white-space: nowrap;
-}
 
-.titleText {
   font-family: "Georgia", "Times New Roman", serif;
-  font-size: clamp(1rem, 3vw, 2.6rem);
+  font-size: clamp(1.1rem, 2.8vw, 2.4rem);
   font-weight: 400;
-  letter-spacing: 0.22em;
-  color: #2c2218;
+  letter-spacing: 0.28em;
+  text-align: center;
+  color: #1e1508;
+  /* Bright halo so it reads against the painted bg */
   text-shadow:
-    0 2px 14px rgba(255, 248, 230, 0.95),
-    0 0 50px rgba(255, 248, 230, 0.7);
-  border-bottom: 1px solid rgba(160, 120, 50, 0.35);
-  padding-bottom: 0.35em;
+    0 0 30px rgba(255, 248, 220, 1),
+    0 0 60px rgba(255, 248, 220, 0.8),
+    0 2px 6px rgba(255, 248, 220, 0.9);
+
+  /* Thin gold underline below the text */
+  text-decoration: none;
+  padding: 0 1.5rem;
+  line-height: 1.6;
 }
 
 /* ── Contact box ── */
-.contactBox {
+.contact {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* JS overrides this on scroll */
-  transform: translateX(-50%) translateY(-50%) scale(0.88);
+  /* JS drives the full transform; this is the hidden default */
+  transform: translate(-50%, -50%) scale(0.9);
   z-index: 6;
   opacity: 0;
   pointer-events: none;
   will-change: opacity, transform;
 
-  /* Frosted parchment card */
-  background: rgba(255, 251, 238, 0.2);
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-  border: 1px solid rgba(190, 155, 85, 0.3);
-  border-radius: 3px;
-  padding: 1.5rem 2.8rem;
+  /* Thin elegant border, almost no fill */
+  background: rgba(252, 247, 232, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(170, 130, 60, 0.5);
+  padding: 2rem 3.5rem;
   text-align: center;
-  box-shadow:
-    0 8px 48px rgba(0, 0, 0, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .contactLabel {
   font-family: "Georgia", serif;
-  font-size: clamp(0.6rem, 1vw, 0.82rem);
-  letter-spacing: 0.32em;
+  font-size: clamp(0.55rem, 0.9vw, 0.75rem);
+  letter-spacing: 0.45em;
   text-transform: uppercase;
-  color: rgba(55, 40, 15, 0.65);
-  margin: 0 0 1rem 0;
+  color: rgba(40, 28, 8, 0.6);
+  margin: 0 0 1.4rem;
 }
 
-.contactIcons {
+.contactLinks {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 2.4rem;
 }
 
-.contactIcon {
+.contactLinks a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #3b2d12;
-  opacity: 0.72;
+  color: #2e2009;
+  opacity: 0.7;
   text-decoration: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.contactIcon:hover {
+.contactLinks a:hover {
   opacity: 1;
-  transform: translateY(-3px);
-  color: #7a5a18;
+  transform: translateY(-4px);
+  color: #6b4a10;
 }
 
-/* ── Mobile ── */
+.contactLinks svg {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
-  .armLeft {
-    left: -10vw;
-    top: 58%;
+  .adam {
+    left: -14vw;
+    bottom: -2vh;
   }
 
-  .armRight {
-    right: -10vw;
-    top: 42%;
+  .god {
+    right: -14vw;
+    top: -2vh;
   }
 
-  .armLeft img,
-  .armRight img {
-    width: clamp(160px, 78vw, 400px);
+  .adam img,
+  .god img {
+    width: clamp(200px, 85vw, 480px);
   }
 
-  .titleText {
-    white-space: normal;
-    max-width: 260px;
-    line-height: 1.5;
+  .title {
+    font-size: clamp(0.85rem, 5vw, 1.4rem);
+    letter-spacing: 0.18em;
+    padding: 0 2rem;
   }
 
-  .contactBox {
-    padding: 1.1rem 1.6rem;
+  .contact {
+    padding: 1.4rem 2rem;
+    width: 85vw;
   }
 
-  .contactIcons {
-    gap: 1.4rem;
+  .contactLinks {
+    gap: 1.6rem;
   }
 }
