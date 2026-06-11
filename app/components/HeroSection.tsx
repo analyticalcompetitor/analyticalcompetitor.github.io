@@ -31,14 +31,14 @@ export default function HeroSection() {
       // Translation from Group1 → Group2:
       //   X: moves RIGHT  (+vw)
       //   Y: moves UP     (-vh)
-      adam.style.transform = `translate(${p * 22}vw, ${p * -20}vh)`;
+      adam.style.transform = `translate(${p * 0}vw, ${p * -30}vh)`;
 
       // ─── God (top-right arm) ───
       // Group1 start: far top-right, outside viewport almost
       // Group2 end:   moved left/down so hand meets center
       //   X: moves LEFT   (-vw)
       //   Y: moves DOWN   (+vh)
-      god.style.transform = `translate(${p * -22}vw, ${p * 20}vh)`;
+      god.style.transform = `translate(${p * -25}vw, ${p * 20}vh)`;
 
       // ─── Title: visible at p=0, gone by p=0.4 ───
       const tOpacity = Math.max(0, 1 - p / 0.38);

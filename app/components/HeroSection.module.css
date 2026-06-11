@@ -140,8 +140,8 @@
 /* ── Contact box ── */
 .contact {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 75%;
+  left: 48%;
   /* JS drives the full transform; this is the hidden default */
   transform: translate(-50%, -50%) scale(0.9);
   z-index: 6;
