@@ -51,7 +51,6 @@
   position: absolute;
   z-index: 2;
   will-change: transform;
-  /* Tight transition so it tracks finger scroll closely */
   transition: transform 0.06s ease;
 }
 
@@ -66,45 +65,31 @@
 
 /*
   ── Adam (left arm / bottom-left corner) ──
-  Group 1 starting position:
-    • Anchored to bottom-left
-    • Arm enters from lower-left, hand points up-right toward center
-  JS will translate it RIGHT + UP as scroll progresses → reaches Group 2 position
 */
 .adam {
-  /* bottom-left anchor */
   left: -8vw;
   bottom: -40vh;
   transform-origin: left bottom;
-  /* p=0: no JS offset yet, so this is the Group1 resting spot */
   transform: translate(0, 0);
 }
 
 .adam img {
   width: clamp(320px, 60vw, 860px);
-  /* Rotate so arm points diagonally up-right from lower-left */
   transform: rotate(-12deg);
 }
 
 /*
   ── God (right arm / top-right corner) ──
-  Group 1 starting position:
-    • Anchored to top-right
-    • Arm enters from upper-right, hand points down-left toward center
-  JS will translate it LEFT + DOWN as scroll progresses → reaches Group 2 position
 */
 .god {
-  /* top-right anchor */
   right: -30vw;
   top: -40vh;
   transform-origin: right top;
-  /* p=0: no JS offset yet, so this is the Group1 resting spot */
   transform: translate(0, 0);
 }
 
 .god img {
   width: clamp(320px, 60vw, 860px);
-  /* Rotate so arm points diagonally down-left from upper-right */
   transform: rotate(-12deg);
 }
 
@@ -119,81 +104,146 @@
   pointer-events: auto;
   will-change: opacity;
 
-  font-family: "Georgia", "Times New Roman", serif;
-  font-size: clamp(1.1rem, 2.8vw, 2.4rem);
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-size: clamp(1.4rem, 3.2vw, 3rem);
   font-weight: 400;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.18em;
   text-align: center;
-  color: #1e1508;
-  /* Bright halo so it reads against the painted bg */
-  text-shadow:
-    0 0 30px rgba(255, 248, 220, 1),
-    0 0 60px rgba(255, 248, 220, 0.8),
-    0 2px 6px rgba(255, 248, 220, 0.9);
+  text-transform: uppercase;
+  color: #1a1005;
 
-  /* Thin gold underline below the text */
-  text-decoration: none;
+  /* Warm parchment glow so text reads against the painted bg */
+  text-shadow:
+    0 0 20px rgba(255, 245, 200, 1),
+    0 0 50px rgba(255, 245, 200, 0.85),
+    0 0 90px rgba(255, 235, 160, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.15);
+
   padding: 0 1.5rem;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 /* ── Contact box ── */
 .contact {
   position: absolute;
-  top: 75%;
-  left: 48%;
-  /* JS drives the full transform; this is the hidden default */
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
   z-index: 6;
   opacity: 0;
   pointer-events: none;
   will-change: opacity, transform;
 
-  /* Thin elegant border, almost no fill */
-  background: rgba(252, 247, 232, 0.12);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(170, 130, 60, 0.5);
-  padding: 2rem 3.5rem;
+  /* Warm parchment card */
+  background: rgba(245, 235, 200, 0.22);
+  backdrop-filter: blur(20px) saturate(140%) brightness(1.08);
+  -webkit-backdrop-filter: blur(20px) saturate(140%) brightness(1.08);
+
+  /* Double border: outer thin gold, inner warm glow */
+  border: 1px solid rgba(160, 115, 40, 0.65);
+  outline: 1px solid rgba(220, 185, 100, 0.2);
+  outline-offset: 5px;
+
+  padding: 2.4rem 4rem;
   text-align: center;
+
+  /* Subtle inner light */
+  box-shadow:
+    0 0 0 1px rgba(255, 235, 150, 0.08) inset,
+    0 2px 40px rgba(0, 0, 0, 0.25),
+    0 0 80px rgba(200, 155, 60, 0.08);
+}
+
+/* Corner ornaments via pseudo-elements */
+.contact::before,
+.contact::after {
+  content: "✦";
+  position: absolute;
+  font-size: 0.6rem;
+  color: rgba(160, 115, 40, 0.7);
+  line-height: 1;
+}
+
+.contact::before {
+  top: 8px;
+  left: 12px;
+}
+
+.contact::after {
+  bottom: 8px;
+  right: 12px;
 }
 
 .contactLabel {
-  font-family: "Georgia", serif;
-  font-size: clamp(0.55rem, 0.9vw, 0.75rem);
-  letter-spacing: 0.45em;
-  text-transform: uppercase;
-  color: rgba(40, 28, 8, 0.6);
-  margin: 0 0 1.4rem;
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-size: clamp(0.7rem, 1.1vw, 0.95rem);
+  font-weight: 400;
+  letter-spacing: 0.35em;
+  text-transform: lowercase;
+  color: rgba(35, 22, 5, 0.75);
+  margin: 0 0 1.6rem;
+
+  /* Faint separator line below label */
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(160, 115, 40, 0.3);
 }
 
 .contactLinks {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2.4rem;
+  gap: 2.8rem;
+  padding-top: 0.2rem;
 }
 
+/* Icon wrapper */
 .contactLinks a {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  color: #2e2009;
-  opacity: 0.7;
+  gap: 0.45rem;
+  color: #2a1a04;
+  opacity: 0.75;
   text-decoration: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 0.22s ease, transform 0.22s ease, color 0.22s ease;
 }
 
 .contactLinks a:hover {
   opacity: 1;
-  transform: translateY(-4px);
-  color: #6b4a10;
+  transform: translateY(-5px);
+  color: #7a5210;
 }
 
-.contactLinks svg {
-  width: 30px;
-  height: 30px;
+/* Circle background on each icon */
+.contactLinks a svg {
+  width: 26px;
+  height: 26px;
   display: block;
+  padding: 10px;
+  border-radius: 50%;
+  background: rgba(200, 160, 70, 0.12);
+  border: 1px solid rgba(160, 115, 40, 0.3);
+  transition: background 0.22s ease, border-color 0.22s ease;
+  box-sizing: content-box;
+}
+
+.contactLinks a:hover svg {
+  background: rgba(200, 160, 70, 0.22);
+  border-color: rgba(160, 115, 40, 0.65);
+}
+
+/* Icon labels */
+.iconLabel {
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: rgba(35, 22, 5, 0.55);
+  transition: color 0.22s ease;
+}
+
+.contactLinks a:hover .iconLabel {
+  color: rgba(100, 65, 10, 0.85);
 }
 
 /* ── Responsive ── */
@@ -214,17 +264,17 @@
   }
 
   .title {
-    font-size: clamp(0.85rem, 5vw, 1.4rem);
-    letter-spacing: 0.18em;
+    font-size: clamp(1rem, 5.5vw, 1.6rem);
+    letter-spacing: 0.12em;
     padding: 0 2rem;
   }
 
   .contact {
-    padding: 1.4rem 2rem;
-    width: 85vw;
+    padding: 1.6rem 2rem;
+    width: 80vw;
   }
 
   .contactLinks {
-    gap: 1.6rem;
+    gap: 1.8rem;
   }
 }
