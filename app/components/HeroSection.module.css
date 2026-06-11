@@ -1,0 +1,190 @@
+/* =========================================
+   HeroSection — Michelangelo Scroll Hero
+   ========================================= */
+
+/* Tall wrapper gives the scroll room to breathe */
+.wrapper {
+  position: relative;
+  height: 300vh;
+  width: 100%;
+}
+
+/* Sticky viewport — everything lives here */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Background ── */
+.bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 35%,
+    rgba(0, 0, 0, 0.28) 100%
+  );
+}
+
+/* ── Arms ── */
+.armLeft,
+.armRight {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  will-change: transform;
+  /* Smooth but fast so it tracks scroll tightly */
+  transition: transform 0.04s linear;
+}
+
+.armLeft {
+  left: -2vw;
+  transform: translateY(-50%);
+  transform-origin: left center;
+}
+
+.armRight {
+  right: -2vw;
+  transform: translateY(-50%);
+  transform-origin: right center;
+}
+
+.armLeft img,
+.armRight img {
+  display: block;
+  width: clamp(280px, 54vw, 800px);
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* ── Hero tagline ── */
+.title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+  will-change: opacity;
+  white-space: nowrap;
+}
+
+.titleText {
+  font-family: "Georgia", "Times New Roman", serif;
+  font-size: clamp(1rem, 3vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  color: #2c2218;
+  text-shadow:
+    0 2px 14px rgba(255, 248, 230, 0.95),
+    0 0 50px rgba(255, 248, 230, 0.7);
+  border-bottom: 1px solid rgba(160, 120, 50, 0.35);
+  padding-bottom: 0.35em;
+}
+
+/* ── Contact box ── */
+.contactBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* JS overrides this on scroll */
+  transform: translateX(-50%) translateY(-50%) scale(0.88);
+  z-index: 6;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+
+  /* Frosted parchment card */
+  background: rgba(255, 251, 238, 0.2);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid rgba(190, 155, 85, 0.3);
+  border-radius: 3px;
+  padding: 1.5rem 2.8rem;
+  text-align: center;
+  box-shadow:
+    0 8px 48px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.contactLabel {
+  font-family: "Georgia", serif;
+  font-size: clamp(0.6rem, 1vw, 0.82rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(55, 40, 15, 0.65);
+  margin: 0 0 1rem 0;
+}
+
+.contactIcons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.contactIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3b2d12;
+  opacity: 0.72;
+  text-decoration: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.contactIcon:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+  color: #7a5a18;
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .armLeft {
+    left: -10vw;
+    top: 58%;
+  }
+
+  .armRight {
+    right: -10vw;
+    top: 42%;
+  }
+
+  .armLeft img,
+  .armRight img {
+    width: clamp(160px, 78vw, 400px);
+  }
+
+  .titleText {
+    white-space: normal;
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  .contactBox {
+    padding: 1.1rem 1.6rem;
+  }
+
+  .contactIcons {
+    gap: 1.4rem;
+  }
+}
