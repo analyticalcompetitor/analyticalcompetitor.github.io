@@ -1,47 +1,154 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./HeroSection.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/*
+  ── Tunables ─────────────────────────────────────────────
+  All in pixels/ratios relative to the current viewport, so the meeting
+  point is recomputed on every resize and is identical on every device.
+*/
+// Rotation of each arm (matches the reference painting)
+const ADAM_ROT = 0;
+const GOD_ROT = 0;
+// Half of the horizontal gap between the two fingertips at the meeting
+// point, as a fraction of the smaller viewport dimension.
+const HALF_GAP = 0.012;
+// Vertical placement of the meeting point (fraction of viewport height).
+const MEET_Y = 0.52;
+// Small vertical offsets so Adam's tip sits a touch lower than God's,
+// as in the painting (fraction of viewport height).
+const ADAM_DY = 0.015;
+const GOD_DY = -0.01;
+// How far apart the arms sit at the START of the scroll, measured from
+// the meeting point (fraction of viewport width / height).
+const APART_X = 0.06;
+const APART_Y = 0.4;
 
 export default function HeroSection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const adamRef = useRef<HTMLDivElement>(null);
   const godRef = useRef<HTMLDivElement>(null);
+  const adamTipRef = useRef<HTMLSpanElement>(null);
+  const godTipRef = useRef<HTMLSpanElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
-      const wrapper = wrapperRef.current;
-      const adam = adamRef.current;
-      const god = godRef.current;
-      const title = titleRef.current;
-      const contact = contactRef.current;
-      if (!wrapper || !adam || !god || !title || !contact) return;
+    const wrapper = wrapperRef.current;
+    const adam = adamRef.current;
+    const god = godRef.current;
+    const adamTip = adamTipRef.current;
+    const godTip = godTipRef.current;
+    if (!wrapper || !adam || !god || !adamTip || !godTip) return;
 
-      const rect = wrapper.getBoundingClientRect();
-      const scrollable = wrapper.offsetHeight - window.innerHeight;
-      const p = Math.min(Math.max(-rect.top / scrollable, 0), 1);
+    // Live-measured offsets. Populated on every ScrollTrigger refresh so
+    // the fingertips always meet dead-centre regardless of viewport size.
+    const A = { sx: 0, sy: 0, ex: 0, ey: 0 };
+    const G = { sx: 0, sy: 0, ex: 0, ey: 0 };
 
-      adam.style.transform = `translate(${p * 0}vw, ${p * -30}vh)`;
-      god.style.transform  = `translate(${p * -25}vw, ${p * 20}vh)`;
-
-      // Title: fades out by p=0.38
-      const tOpacity = Math.max(0, 1 - p / 0.38);
-      title.style.opacity = String(tOpacity);
-      title.style.pointerEvents = tOpacity < 0.02 ? "none" : "auto";
-
-      // Contact box: fades in from p=0.55
-      const cOpacity = Math.max(0, (p - 0.55) / 0.45);
-      const cScale = 0.9 + cOpacity * 0.1;
-      contact.style.opacity = String(cOpacity);
-      contact.style.transform = `translate(-50%, -50%) scale(${cScale})`;
-      contact.style.pointerEvents = cOpacity > 0.05 ? "auto" : "none";
+    const centreOf = (el: HTMLElement) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
+    const measure = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const gap = Math.min(vw, vh) * HALF_GAP;
+
+      // Neutralise translation (keep rotation) so we can read each
+      // fingertip's resting screen position.
+      gsap.set(adam, { x: 0, y: 0, rotation: ADAM_ROT });
+      gsap.set(god, { x: 0, y: 0, rotation: GOD_ROT });
+
+      const restAdam = centreOf(adamTip);
+      const restGod = centreOf(godTip);
+
+      // Where each fingertip should END UP (meeting point).
+      const meetAdam = { x: vw / 2 - gap, y: vh * (MEET_Y + ADAM_DY) };
+      const meetGod = { x: vw / 2 + gap, y: vh * (MEET_Y + GOD_DY) };
+
+      // ...and where they START (pushed out to opposite corners).
+      const startAdam = {
+        x: meetAdam.x - vw * APART_X,
+        y: meetAdam.y + vh * APART_Y,
+      };
+      const startGod = {
+        x: meetGod.x + vw * APART_X,
+        y: meetGod.y - vh * APART_Y,
+      };
+
+      A.ex = meetAdam.x - restAdam.x;
+      A.ey = meetAdam.y - restAdam.y;
+      A.sx = startAdam.x - restAdam.x;
+      A.sy = startAdam.y - restAdam.y;
+
+      G.ex = meetGod.x - restGod.x;
+      G.ey = meetGod.y - restGod.y;
+      G.sx = startGod.x - restGod.x;
+      G.sy = startGod.y - restGod.y;
+    };
+
+    const ctx = gsap.context(() => {
+      // Recompute the pixel targets before ScrollTrigger measures.
+      ScrollTrigger.addEventListener("refreshInit", measure);
+      measure();
+
+      const tl = gsap.timeline({
+        defaults: { ease: "none" },
+        scrollTrigger: {
+          trigger: wrapper,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      tl.fromTo(
+        adam,
+        { x: () => A.sx, y: () => A.sy, rotation: ADAM_ROT },
+        { x: () => A.ex, y: () => A.ey, duration: 0.7 },
+        0
+      );
+      tl.fromTo(
+        god,
+        { x: () => G.sx, y: () => G.sy, rotation: GOD_ROT },
+        { x: () => G.ex, y: () => G.ey, duration: 0.7 },
+        0
+      );
+
+      // Title fades out as the arms approach.
+      tl.fromTo(
+        titleRef.current,
+        { opacity: 1 },
+        { opacity: 0, duration: 0.3 },
+        0
+      );
+
+      // Contact box fades/scales in once the fingertips are together.
+      tl.fromTo(
+        contactRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1.5, duration: 0.25 },
+        0.72
+      );
+    });
+
+    // Fonts loading can shift layout → re-measure once they're ready.
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    }
+
+    return () => {
+      ScrollTrigger.removeEventListener("refreshInit", measure);
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -54,14 +161,24 @@ export default function HeroSection() {
           style={{ backgroundImage: "url(/images/background.png)" }}
         />
 
-        {/* ── Adam's arm — starts bottom-left ── */}
+        {/* ── Adam's arm — enters from bottom-left ── */}
         <div className={styles.adam} ref={adamRef}>
           <img src="/images/hand-left.png" alt="Adam's arm" draggable={false} />
+          <span
+            className={`${styles.tip} ${styles.tipAdam}`}
+            ref={adamTipRef}
+            aria-hidden
+          />
         </div>
 
-        {/* ── God's arm — starts top-right ── */}
+        {/* ── God's arm — enters from top-right ── */}
         <div className={styles.god} ref={godRef}>
           <img src="/images/hand-right.png" alt="God's arm" draggable={false} />
+          <span
+            className={`${styles.tip} ${styles.tipGod}`}
+            ref={godTipRef}
+            aria-hidden
+          />
         </div>
 
         {/* ── Title — MedievalSharp, fades on scroll ── */}

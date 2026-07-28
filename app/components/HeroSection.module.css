@@ -1,15 +1,17 @@
 /*
   HeroSection.module.css
   ─────────────────────────────────────────────────────────
-  Group 1 (start): arms FAR apart — God top-right, Adam bottom-left
-  Group 2 (end):   arms CLOSE — fingertips nearly touching at center
+  Animation is driven by GSAP (see HeroSection.tsx).
+  CSS only defines the RESTING layout of each arm; GSAP measures the
+  real fingertip pixel position at runtime and animates the arms so the
+  two fingertips meet at the viewport centre on every screen size.
   ─────────────────────────────────────────────────────────
 */
 
 /* ── Scroll container ── */
 .wrapper {
   position: relative;
-  height: 300vh;
+  height: 320vh;
   width: 100%;
 }
 
@@ -51,12 +53,12 @@
   position: absolute;
   z-index: 2;
   will-change: transform;
-  transition: transform 0.06s ease;
 }
 
 .adam img,
 .god img {
   display: block;
+  width: 100%;
   height: auto;
   user-select: none;
   pointer-events: none;
@@ -64,33 +66,39 @@
 }
 
 /*
-  ── Adam (left arm / bottom-left corner) ──
-*/
-.adam {
-  left: -8vw;
-  bottom: -40vh;
-  transform-origin: left bottom;
-  transform: translate(0, 0);
-}
+  Each arm is sized by its container width. The fingertip sits on the
+  INNER vertical edge of the image (Adam: right edge, God: left edge),
+  so we anchor each container's top-left to the centre of the screen and
+  let GSAP take over from there.
 
-.adam img {
-  width: clamp(320px, 60vw, 860px);
-  transform: rotate(-12deg);
-}
-
-/*
-  ── God (right arm / top-right corner) ──
+  The .tip marker is a zero-size element placed exactly on the fingertip
+  (measured from the PNG alpha channel). GSAP reads its live screen
+  position to compute a pixel-perfect meeting point.
 */
+.adam,
 .god {
-  right: -30vw;
-  top: -40vh;
-  transform-origin: right top;
-  transform: translate(0, 0);
+  left: 50%;
+  top: 50%;
+  width: clamp(360px, 46vw, 820px);
+  transform-origin: center center;
 }
 
-.god img {
-  width: clamp(320px, 60vw, 860px);
-  transform: rotate(-12deg);
+.tip {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Adam's fingertip: right edge of the image */
+.tipAdam {
+  left: 100%;
+  top: 44.4%;
+}
+
+/* God's fingertip: left edge of the image */
+.tipGod {
+  left: 0%;
+  top: 48.6%;
 }
 
 /* ── Center title ── */
@@ -105,17 +113,13 @@
   will-change: opacity;
 
   font-family: var(--font-medieval), "Georgia", serif;
-  /* Bigger + thinner: increased size, font-weight 100 (MedievalSharp only has 400
-     so we simulate thinness with a slight stroke trick via text-shadow offset) */
   font-size: clamp(1.8rem, 4.2vw, 4rem);
   font-weight: 400;
   letter-spacing: 0.22em;
   text-align: center;
   text-transform: uppercase;
-  /* Thin appearance: paint text in a very light warm tone */
   color: rgba(28, 18, 6, 0.72);
 
-  /* Warm parchment glow — the wide spread gives an ethereal lightness */
   text-shadow:
     0 0 1px rgba(28, 18, 6, 0.3),
     0 0 25px rgba(255, 245, 200, 1),
@@ -129,20 +133,18 @@
 /* ── Contact box ── */
 .contact {
   position: absolute;
-  top: 80%;
-  left: 48%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%) scale(0.9);
   z-index: 6;
   opacity: 0;
   pointer-events: none;
   will-change: opacity, transform;
 
-  /* Opaque enough to read, warm parchment tone */
   background: rgba(240, 228, 190, 0.72);
   backdrop-filter: blur(18px) saturate(130%) brightness(1.05);
   -webkit-backdrop-filter: blur(18px) saturate(130%) brightness(1.05);
 
-  /* Double border: outer thin gold, inner warm glow */
   border: 1px solid rgba(140, 98, 28, 0.75);
   outline: 1px solid rgba(200, 160, 80, 0.25);
   outline-offset: 5px;
@@ -185,7 +187,6 @@
   color: rgba(35, 22, 5, 0.85);
   margin: 0 0 1.6rem;
 
-  /* Faint separator line below label */
   padding-bottom: 1.2rem;
   border-bottom: 1px solid rgba(140, 98, 28, 0.35);
 }
@@ -250,19 +251,9 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .adam {
-    left: -14vw;
-    bottom: -2vh;
-  }
-
+  .adam,
   .god {
-    right: -14vw;
-    top: -2vh;
-  }
-
-  .adam img,
-  .god img {
-    width: clamp(200px, 85vw, 480px);
+    width: clamp(240px, 92vw, 520px);
   }
 
   .title {
