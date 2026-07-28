@@ -17,7 +17,7 @@ const ADAM_ROT = 0;
 const GOD_ROT = 0;
 // Half of the horizontal gap between the two fingertips at the meeting
 // point, as a fraction of the smaller viewport dimension.
-const HALF_GAP = 0.012;
+const HALF_GAP = 0.09;
 // Vertical placement of the meeting point (fraction of viewport height).
 const MEET_Y = 0.52;
 // Small vertical offsets so Adam's tip sits a touch lower than God's,
@@ -27,7 +27,7 @@ const GOD_DY = -0.01;
 // How far apart the arms sit at the START of the scroll, measured from
 // the meeting point (fraction of viewport width / height).
 const APART_X = 0.06;
-const APART_Y = 0.4;
+const APART_Y = 0.29;
 
 export default function HeroSection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -59,6 +59,8 @@ export default function HeroSection() {
     const measure = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
+      const adamWidth = adam.getBoundingClientRect().width;
+      const godWidth = god.getBoundingClientRect().width;
       const gap = Math.min(vw, vh) * HALF_GAP;
 
       // Neutralise translation (keep rotation) so we can read each
@@ -135,7 +137,7 @@ export default function HeroSection() {
       tl.fromTo(
         contactRef.current,
         { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1.5, duration: 0.25 },
+        { opacity: 1, scale: 1, duration: 0.25 },
         0.72
       );
     });
