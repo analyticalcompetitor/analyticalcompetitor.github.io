@@ -17,17 +17,17 @@ const ADAM_ROT = 0;
 const GOD_ROT = 0;
 // Half of the horizontal gap between the two fingertips at the meeting
 // point, as a fraction of the smaller viewport dimension.
-const HALF_GAP = 0.09;
+const HALF_GAP = 0.05;
 // Vertical placement of the meeting point (fraction of viewport height).
-const MEET_Y = 0.52;
+const MEET_Y = 0.36;
 // Small vertical offsets so Adam's tip sits a touch lower than God's,
 // as in the painting (fraction of viewport height).
-const ADAM_DY = 0.015;
-const GOD_DY = -0.01;
+const ADAM_DY = -0.025;
+const GOD_DY = 0.015;
 // How far apart the arms sit at the START of the scroll, measured from
 // the meeting point (fraction of viewport width / height).
 const APART_X = 0.06;
-const APART_Y = 0.29;
+const APART_Y = 0.28;
 
 export default function HeroSection() {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -44,6 +44,7 @@ export default function HeroSection() {
     const god = godRef.current;
     const adamTip = adamTipRef.current;
     const godTip = godTipRef.current;
+
     if (!wrapper || !adam || !god || !adamTip || !godTip) return;
 
     // Live-measured offsets. Populated on every ScrollTrigger refresh so
@@ -57,10 +58,10 @@ export default function HeroSection() {
     };
 
     const measure = () => {
+
+
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const adamWidth = adam.getBoundingClientRect().width;
-      const godWidth = god.getBoundingClientRect().width;
       const gap = Math.min(vw, vh) * HALF_GAP;
 
       // Neutralise translation (keep rotation) so we can read each
@@ -114,14 +115,14 @@ export default function HeroSection() {
 
       tl.fromTo(
         adam,
-        { x: () => A.sx, y: () => A.sy, rotation: ADAM_ROT },
-        { x: () => A.ex, y: () => A.ey, duration: 0.7 },
+        { x: () => A.sx, y: () => A.sy, rotation: ADAM_ROT, scale: 1 },
+        { x: () => A.ex, y: () => A.ey, duration: 0.7, scale: 1.1 },
         0
       );
       tl.fromTo(
         god,
-        { x: () => G.sx, y: () => G.sy, rotation: GOD_ROT },
-        { x: () => G.ex, y: () => G.ey, duration: 0.7 },
+        { x: () => G.sx, y: () => G.sy, rotation: GOD_ROT, scale: 1 },
+        { x: () => G.ex, y: () => G.ey, duration: 0.7, scale: 1.1 },
         0
       );
 
