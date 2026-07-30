@@ -1,0 +1,317 @@
+/*
+  ProjectsSection.module.css — "II · PROJECTS"
+  ─────────────────────────────────────────────────────────
+  The Vitruvian plate IS the room. It sits full-bleed behind everything;
+  the prototype pins it with `background-attachment: fixed`, which breaks
+  on iOS and fights transforms, so the same effect is produced with a
+  GSAP parallax on .plate instead (see ProjectsSection.tsx).
+  ─────────────────────────────────────────────────────────
+*/
+
+.section {
+  position: relative;
+  overflow: hidden;
+  background: #211e1a;
+  border-bottom: 1px solid rgba(200, 160, 80, 0.3);
+
+  font-family: var(--font-garamond), Georgia, serif;
+  color: rgba(240, 228, 190, 0.88);
+}
+
+/* ── The plate ──────────────────────────────────────────
+   The drawing is shown WHOLE: full screen width, natural height, never
+   cropped. Everything else is positioned relative to it, so the layout
+   follows the plate's real 1200×625 proportions at any screen size. */
+.plateWrap {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  background: #c9b98e;
+  line-height: 0;
+}
+
+.plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Light at the top so the drawing reads, darkening downward so the card
+   copy stays legible over it. */
+.plateVeil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+      rgba(28, 26, 23, 0.06) 0%,
+      rgba(28, 26, 23, 0.18) 34%,
+      rgba(28, 26, 23, 0.62) 62%,
+      rgba(28, 26, 23, 0.78) 100%);
+}
+
+/* ── Title, seated above his head ── */
+.titleBlock {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 4.5%;
+  z-index: 2;
+  padding: 0 40px;
+  text-align: center;
+  line-height: normal;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  justify-content: center;
+}
+
+.numeral {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(110, 76, 20, 0.85);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-medieval), serif;
+  font-size: 14px;
+  color: #5a3f10;
+  flex: none;
+}
+
+.eyebrowLabel {
+  color: rgba(74, 52, 14, 0.85);
+}
+
+/* Scales with the plate so it always sits above his head, never on it. */
+.title {
+  margin: 14px 0 0;
+  font-size: clamp(34px, 7.2vw, 104px);
+  line-height: 0.9;
+  color: #4a3510;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 0 rgba(255, 246, 214, 0.55);
+}
+
+.titleRule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 520px;
+  margin: 16px auto 0;
+  color: rgba(110, 76, 20, 0.8);
+  font-size: 11px;
+}
+
+.titleRule::before,
+.titleRule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(110, 76, 20, 0.6),
+      transparent);
+}
+
+/* ── The overlay panel — sits over the drawing, lets it read through ── */
+/*
+  The plate is 1200×625, so its rendered height is 52.08% of the screen
+  width. A -14.5% (of width) pull puts the panel's top edge at roughly
+  72% down the drawing — over his shins, leaving the head, the full arm
+  span and the torso completely clear.
+*/
+.panel {
+  position: relative;
+  z-index: 2;
+  margin-top: -14.5%;
+  background: rgba(24, 21, 17, 0.72);
+  border-top: 1px solid rgba(200, 160, 80, 0.4);
+  box-shadow: 0 -26px 60px rgba(20, 17, 13, 0.5);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+.panelInner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 44px 40px 62px;
+}
+
+.panelHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.06;
+  color: #f0e2b8;
+}
+
+.panelLede {
+  font-size: 17.5px;
+  line-height: 1.6;
+  color: rgba(240, 228, 190, 0.72);
+  max-width: 430px;
+}
+
+/* ── Cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+  margin-top: 34px;
+  align-items: start;
+}
+
+.card {
+  min-width: 0;
+  border: 1px solid rgba(200, 160, 80, 0.42);
+  background: rgba(240, 228, 190, 0.06);
+  padding: 24px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: background 0.3s ease, border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.card:hover {
+  background: rgba(240, 228, 190, 0.11);
+  border-color: rgba(200, 160, 80, 0.75);
+  transform: translateY(-4px);
+}
+
+.cardMeta {
+  color: rgba(200, 175, 120, 0.7);
+}
+
+.cardTitle {
+  font-size: 29px;
+  color: #f0e2b8;
+  line-height: 1.1;
+}
+
+.cardText {
+  font-size: 16.5px;
+  line-height: 1.58;
+  color: rgba(240, 228, 190, 0.8);
+}
+
+.divider {
+  height: 1px;
+  background: rgba(200, 160, 80, 0.35);
+}
+
+.cardResult {
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: rgba(240, 228, 190, 0.72);
+}
+
+.cardResult b {
+  color: #c8a050;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cardLink {
+  font-size: 17px;
+  margin-top: 2px;
+  color: #c8a050;
+  text-decoration: none;
+  transition: color 0.22s ease, transform 0.22s ease;
+  align-self: flex-start;
+}
+
+.cardLink:hover {
+  color: #f0dfa8;
+  transform: translateX(4px);
+}
+
+/* ── Shared type helpers ── */
+.cap {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.ms {
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-weight: 400;
+}
+
+.chip {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(200, 160, 80, 0.45);
+  color: rgba(232, 217, 174, 0.8);
+  padding: 3px 8px;
+}
+
+.term {
+  background: #0d1109;
+  border: 1px solid rgba(126, 224, 138, 0.32);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  color: #7ee08a;
+  padding: 10px 12px;
+}
+
+.dim {
+  opacity: 0.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 820px) {
+  .titleBlock {
+    padding: 0 22px;
+  }
+
+  .title {
+    letter-spacing: 0.06em;
+  }
+
+  /* Shallower overlap: the plate is short at this width, so the panel
+     stops earlier to keep the figure readable. */
+  .panel {
+    margin-top: -9%;
+  }
+
+  .panelInner {
+    padding: 32px 22px 46px;
+  }
+
+  .panelTitle {
+    font-size: 30px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}

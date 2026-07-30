@@ -151,6 +151,13 @@
 }
 
 /* ── Two-column body ── */
+/* Grid children default to min-width:auto, which lets a wide child (a
+   long word, a code block) push the track past its declared size and
+   scroll the whole page sideways. min-width:0 lets them shrink. */
+.grid > * {
+  min-width: 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 390px 1fr;
@@ -284,6 +291,7 @@
 }
 
 .card {
+  min-width: 0;
   border: 1px solid rgba(200, 160, 80, 0.35);
   background: rgba(240, 228, 190, 0.05);
   padding: 18px 20px;

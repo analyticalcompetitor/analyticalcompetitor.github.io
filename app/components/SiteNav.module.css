@@ -1,0 +1,160 @@
+/*
+  SiteNav.module.css — the thin brass rail
+  ─────────────────────────────────────────────────────────
+  Fixed rather than sticky: it has to appear part-way down the page,
+  once the hero is completely covered, and stay there. It starts hidden
+  and is revealed by GSAP (see SiteNav.tsx).
+  ─────────────────────────────────────────────────────────
+*/
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 11px 40px;
+
+  background: rgba(22, 20, 17, 0.93);
+  border-bottom: 1px solid rgba(200, 160, 80, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  font-family: var(--font-garamond), Georgia, serif;
+
+  /* Hidden until the hero is gone. GSAP takes over from here. */
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Set by GSAP once revealed, so the links become clickable. */
+.visible {
+  pointer-events: auto;
+}
+
+.brand {
+  font-family: var(--font-medieval), serif;
+  font-weight: 400;
+  font-size: 19px;
+  color: #e8d9ae;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.22s ease;
+}
+
+.brand:hover {
+  color: #fff6de;
+}
+
+.links {
+  display: flex;
+  gap: 26px;
+  align-items: center;
+}
+
+.cap {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.link {
+  position: relative;
+  color: rgba(232, 217, 174, 0.75);
+  text-decoration: none;
+  padding-bottom: 3px;
+  transition: color 0.22s ease;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: #f0dfa8;
+}
+
+/* Brass underline that draws itself on hover. */
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: rgba(200, 160, 80, 0.9);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s ease;
+}
+
+.link:hover::after {
+  transform: scaleX(1);
+}
+
+.divider {
+  width: 1px;
+  height: 14px;
+  background: rgba(200, 160, 80, 0.4);
+  flex: none;
+}
+
+.lang {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(232, 217, 174, 0.4);
+  transition: color 0.22s ease;
+}
+
+.lang:hover {
+  color: rgba(232, 217, 174, 0.75);
+}
+
+.langActive {
+  color: #c8a050;
+}
+
+.langActive:hover {
+  color: #f0dfa8;
+}
+
+/* ── Responsive ── */
+@media (max-width: 820px) {
+  .nav {
+    padding: 10px 22px;
+    gap: 14px;
+  }
+
+  .brand {
+    font-size: 16px;
+  }
+
+  .links {
+    gap: 14px;
+  }
+
+  .cap {
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (max-width: 560px) {
+  /* Keep the brand and the language switch; the section links would
+     wrap and break the rail at this width. */
+  .link,
+  .divider {
+    display: none;
+  }
+}

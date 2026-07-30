@@ -1,0 +1,302 @@
+/*
+  ExperienceSection.module.css — "III · EXPERIENCE"
+  ─────────────────────────────────────────────────────────
+  A ledger: dated rows ruled with brass lines on the left, and a sticky
+  anatomical aside on the right that follows the reader down the page.
+  ─────────────────────────────────────────────────────────
+*/
+
+.section {
+  position: relative;
+  padding: 66px 40px 64px;
+  border-bottom: 1px solid rgba(200, 160, 80, 0.3);
+  background: #1c1a17;
+
+  font-family: var(--font-garamond), Georgia, serif;
+  color: rgba(240, 228, 190, 0.88);
+}
+
+/* ── Codex backdrop ── */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.codex {
+  position: absolute;
+  inset: -10% 0;
+  background: #c9b98e url("/images/experience-background.jpg") 50% 12% / cover;
+  opacity: 0.18;
+  filter: sepia(0.4);
+  will-change: transform;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(28, 26, 23, 0.94),
+      rgba(22, 20, 17, 0.97));
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ── Section header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.numeral {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(200, 160, 80, 0.7);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-medieval), serif;
+  font-size: 14px;
+  color: #e0c98c;
+  flex: none;
+}
+
+.headerLabel {
+  color: rgba(200, 175, 120, 0.75);
+}
+
+.headerRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(200, 160, 80, 0.5), transparent);
+  transform-origin: left center;
+}
+
+/* ── Title row ── */
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 26px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 46px;
+  line-height: 1.06;
+  color: #f0e2b8;
+}
+
+.cvLink {
+  font-size: 18px;
+  color: #c8a050;
+  text-decoration: none;
+  transition: color 0.22s ease, transform 0.22s ease;
+}
+
+.cvLink:hover {
+  color: #f0dfa8;
+  transform: translateX(3px);
+}
+
+/* ── The ledger ── */
+/* See the note in AboutSection: without this, the ledger's fixed 340px
+   aside and the pre-formatted terminal block can widen the page. */
+.ledger > *,
+.entry > * {
+  min-width: 0;
+}
+
+.ledger {
+  margin-top: 34px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+  align-items: start;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 26px;
+  padding: 22px 0;
+  border-top: 1px solid rgba(200, 160, 80, 0.4);
+}
+
+/* Close the ledger off at the bottom. */
+.entry:last-child {
+  border-bottom: 1px solid rgba(200, 160, 80, 0.4);
+}
+
+.entryDate {
+  font-size: 21px;
+  color: #c8a050;
+  line-height: 1.2;
+}
+
+.entryDuration {
+  color: rgba(200, 175, 120, 0.5);
+  margin-top: 6px;
+}
+
+.entryRole {
+  font-size: 28px;
+  color: #f0e2b8;
+  line-height: 1.15;
+}
+
+.entryPlace {
+  color: rgba(200, 175, 120, 0.65);
+  margin-top: 5px;
+}
+
+.entryText {
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(240, 228, 190, 0.78);
+  margin-top: 11px;
+  max-width: 600px;
+}
+
+.entryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+/* ── The anatomical aside ── */
+.aside {
+  position: sticky;
+  top: 70px;
+}
+
+.frame {
+  border: 9px solid #8c621c;
+  outline: 1px solid rgba(200, 160, 80, 0.55);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 235, 150, 0.25);
+  background: #d9c99e;
+  line-height: 0;
+}
+
+/* The plate is shown whole — its natural 1366×2048 proportion, no crop. */
+.plate {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: sepia(0.32) contrast(0.95);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.brass {
+  background: rgba(240, 228, 190, 0.94);
+  border: 1px solid rgba(140, 98, 28, 0.75);
+  outline: 1px solid rgba(200, 160, 80, 0.22);
+  outline-offset: 5px;
+  padding: 14px 16px;
+  margin-top: 16px;
+}
+
+.brassCap {
+  color: rgba(90, 62, 16, 0.7);
+}
+
+.brassText {
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: #3a2809;
+  margin-top: 6px;
+}
+
+/* ── Shared type helpers ── */
+.cap {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.ms {
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-weight: 400;
+}
+
+.chip {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(200, 160, 80, 0.45);
+  color: rgba(232, 217, 174, 0.8);
+  padding: 3px 8px;
+}
+
+.term {
+  background: #0d1109;
+  border: 1px solid rgba(126, 224, 138, 0.32);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  color: #7ee08a;
+  padding: 10px 12px;
+  margin-top: 14px;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .ledger {
+    grid-template-columns: 1fr 280px;
+    gap: 28px;
+  }
+
+  .title {
+    font-size: 38px;
+  }
+
+  .entryRole {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 52px 22px 48px;
+  }
+
+  .ledger {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  /* The aside stops following and simply sits under the ledger. */
+  .aside {
+    position: static;
+    max-width: 420px;
+  }
+
+  .entry {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .entryRole {
+    font-size: 22px;
+  }
+}
