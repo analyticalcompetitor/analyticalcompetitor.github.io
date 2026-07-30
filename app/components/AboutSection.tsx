@@ -3,37 +3,12 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Emphasis, Lines, useLanguage } from "../i18n/LanguageProvider";
 import styles from "./AboutSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CAPABILITIES = [
-  {
-    index: "i",
-    title: "Automate the work nobody wants to do",
-    text: "Spreadsheets cleaned, reports generated, sites scraped, jobs scheduled. Python, Pandas, Airflow, Playwright.",
-  },
-  {
-    index: "ii",
-    title: (
-      <>
-        Chatbots that answer from <i>your</i> documents
-      </>
-    ),
-    text: "RAG done properly: ingestion, chunking, embeddings, retrieval you can measure — and every answer cites its source.",
-  },
-  {
-    index: "iii",
-    title: "Put an LLM inside your product",
-    text: "Prompt workflows, structured output, text and images in one pipeline. Integrated into the system you already have.",
-  },
-  {
-    index: "iv",
-    title: "Ship the whole thing",
-    text: "Angular, Next.js, SQL and NoSQL, Docker. Front end, back end, and the deployment in between.",
-  },
-];
-
+/* Stack names stay in English in both languages. */
 const CHIPS = [
   "Python",
   "Pandas",
@@ -53,6 +28,7 @@ const CHIPS = [
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const stoneRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -139,7 +115,7 @@ export default function AboutSection() {
         <div className={styles.header}>
           <div className={styles.numeral}>I</div>
           <div className={`${styles.cap} ${styles.headerLabel}`}>
-            Meet Mathew
+            {t.about.eyebrow}
           </div>
           <div className={styles.headerRule} />
         </div>
@@ -148,17 +124,21 @@ export default function AboutSection() {
           {/* ── Portrait, hung like a canvas ── */}
           <div>
             <div className={styles.frame}>
-              <div className={styles.portrait}>
+              <div
+                className={styles.portrait}
+                role="img"
+                aria-label={t.about.portraitAlt}
+              >
                 <div className={styles.portraitVeil} />
               </div>
             </div>
 
             <div className={styles.brass}>
               <div className={`${styles.cap} ${styles.brassCap}`}>
-                Teresina, Piauí · Brazil · UTC−3
+                {t.about.location}
               </div>
               <div className={`${styles.ms} ${styles.brassTitle}`}>
-                AI Engineer · open to remote roles and freelance builds
+                {t.about.availability}
               </div>
             </div>
 
@@ -175,40 +155,30 @@ export default function AboutSection() {
           {/* ── The statement ── */}
           <div>
             <h2 className={`${styles.ms} ${styles.statement}`}>
-              I build the machinery
-              <br />
-              that makes AI actually useful.
+              <Lines lines={t.about.statement} />
             </h2>
 
             <div className={styles.lede}>
-              <span className={styles.dropCap}>M</span>y name is Mateus
-              Henrique. I&apos;m a Computer Science student at the Federal
-              University of Piauí, graduating in July 2026, and I&apos;ve spent
-              the last five years doing one thing: taking messy real-world data
-              and turning it into systems that run by themselves.
+              <span className={styles.dropCap}>{t.about.dropCap}</span>
+              {t.about.lede}
             </div>
 
-            <div className={styles.body}>
-              Two years of NLP research. A year building ETL pipelines and
-              LLM-generated reports for a health-tech company. A retrieval
-              chatbot that answers from an institution&apos;s own documents. Not
-              demos — things that stayed running after I walked away.
-            </div>
+            <div className={styles.body}>{t.about.body}</div>
 
             <div className={styles.rule}>
               <span className={`${styles.cap} ${styles.ruleLabel}`}>
-                what i can build for you
+                {t.about.capabilitiesLabel}
               </span>
             </div>
 
             <div className={styles.cards}>
-              {CAPABILITIES.map((c) => (
+              {t.about.capabilities.map((c) => (
                 <div className={styles.card} key={c.index}>
                   <div className={`${styles.cap} ${styles.cardIndex}`}>
                     {c.index}
                   </div>
                   <div className={`${styles.ms} ${styles.cardTitle}`}>
-                    {c.title}
+                    <Emphasis text={c.title} />
                   </div>
                   <div className={styles.cardText}>{c.text}</div>
                 </div>

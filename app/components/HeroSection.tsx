@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "../i18n/LanguageProvider";
 import styles from "./HeroSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,6 +31,7 @@ const APART_X = 0.06;
 const APART_Y = 0.28;
 
 export default function HeroSection() {
+  const { t } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
   const adamRef = useRef<HTMLDivElement>(null);
@@ -180,7 +182,7 @@ export default function HeroSection() {
 
         {/* ── Adam's arm — enters from bottom-left ── */}
         <div className={styles.adam} ref={adamRef}>
-          <img src="/images/hand-left.png" alt="Adam's arm" draggable={false} />
+          <img src="/images/hand-left.png" alt={t.hero.adamAlt} draggable={false} />
           <span
             className={`${styles.tip} ${styles.tipAdam}`}
             ref={adamTipRef}
@@ -190,7 +192,7 @@ export default function HeroSection() {
 
         {/* ── God's arm — enters from top-right ── */}
         <div className={styles.god} ref={godRef}>
-          <img src="/images/hand-right.png" alt="God's arm" draggable={false} />
+          <img src="/images/hand-right.png" alt={t.hero.godAlt} draggable={false} />
           <span
             className={`${styles.tip} ${styles.tipGod}`}
             ref={godTipRef}
@@ -200,7 +202,7 @@ export default function HeroSection() {
 
         {/* ── Title — MedievalSharp, fades on scroll ── */}
         <div className={styles.title} ref={titleRef}>
-          CREATION BEGINS IN CONTACT
+          {t.hero.title}
         </div>
 
       </div>

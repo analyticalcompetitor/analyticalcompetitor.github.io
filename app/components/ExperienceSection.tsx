@@ -1,78 +1,25 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Emphasis, Lines, useLanguage } from "../i18n/LanguageProvider";
 import styles from "./ExperienceSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Entry = {
-  date: ReactNode;
-  duration: string;
-  role: string;
-  place?: string;
-  text: ReactNode;
-  chips?: string[];
-};
-
-const ENTRIES: Entry[] = [
-  {
-    date: (
-      <>
-        Feb 2025
-        <br />— Mar 2026
-      </>
-    ),
-    duration: "1 yr 2 mo",
-    role: "Tech Intern · Medsafe",
-    place: "Teresina, Brazil · health tech",
-    text: (
-      <>
-        Built Airflow ETL pipelines that transformed database data, generated
-        visual outputs, and fed both structured data and images into LLM-based
-        automated reporting. Cleaned and structured Excel and CSV datasets with
-        Python and Pandas. Also worked on the front end in Angular for the{" "}
-        <i>Piauí Primeira Infância</i> early-childhood system.
-      </>
-    ),
-    chips: ["Airflow", "Python", "Pandas", "LLM", "Angular"],
-  },
-  {
-    date: (
-      <>
-        Aug 2021
-        <br />— Nov 2023
-      </>
-    ),
-    duration: "2 yr 4 mo",
-    role: "Undergraduate Researcher (PIBIC) · UFPI",
-    place: "Department of Computer Science",
-    text: "Researched automatic grading of free-text answers using NLP similarity methods, and built the experimental evaluation pipelines that compared them.",
-    chips: ["Scikit-learn", "spaCy", "NLTK", "Research"],
-  },
-  {
-    date: (
-      <>
-        Aug 2021
-        <br />— Nov 2021
-      </>
-    ),
-    duration: "4 mo",
-    role: "Data Structures Teaching Assistant · UFPI",
-    text: "Reviewed assignments and exams and taught linked lists, stacks, queues, trees, graphs, hash tables, heaps and algorithmic complexity one student at a time.",
-  },
-  {
-    date: "→ Jul 2026",
-    duration: "graduating",
-    role: "BSc Computer Science · Federal University of Piauí",
-    text: "Coursework in Artificial Intelligence, Natural Language Processing, and Topics in AI with an emphasis on RAG applications.",
-  },
+/* Stack names stay in English in both languages. */
+const CHIPS: string[][] = [
+  ["Airflow", "Python", "Pandas", "LLM", "Angular"],
+  ["Scikit-learn", "spaCy", "NLTK", "Research"],
+  [],
+  [],
 ];
 
 export default function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const codexRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -126,8 +73,8 @@ export default function ExperienceSection() {
         },
       });
 
-      /* ── 4. Ledger rows written in one at a time, each with its rule
-         drawing itself left-to-right. ── */
+      /* ── 4. Ledger rows written in one at a time, each with its chips
+         following after. ── */
       gsap.utils.toArray<HTMLElement>(`.${styles.entry}`).forEach((entry) => {
         gsap
           .timeline({
@@ -163,28 +110,28 @@ export default function ExperienceSection() {
         <div className={styles.header}>
           <div className={styles.numeral}>III</div>
           <div className={`${styles.cap} ${styles.headerLabel}`}>
-            where i&apos;ve worked and studied
+            {t.experience.eyebrow}
           </div>
           <div className={styles.headerRule} />
         </div>
 
         <div className={styles.titleRow}>
           <h2 className={`${styles.ms} ${styles.title}`}>
-            Five years, in order.
+            {t.experience.title}
           </h2>
           <a className={`${styles.ms} ${styles.cvLink}`} href="#">
-            Download the full CV (PDF) →
+            {t.experience.cv}
           </a>
         </div>
 
         {/* ── The ledger ── */}
         <div className={styles.ledger}>
           <div>
-            {ENTRIES.map((e) => (
+            {t.experience.entries.map((e, i) => (
               <div className={styles.entry} key={e.role}>
                 <div>
                   <div className={`${styles.ms} ${styles.entryDate}`}>
-                    {e.date}
+                    <Lines lines={e.date} />
                   </div>
                   <div className={`${styles.cap} ${styles.entryDuration}`}>
                     {e.duration}
@@ -202,11 +149,13 @@ export default function ExperienceSection() {
                     </div>
                   )}
 
-                  <div className={styles.entryText}>{e.text}</div>
+                  <div className={styles.entryText}>
+                    <Emphasis text={e.text} />
+                  </div>
 
-                  {e.chips && (
+                  {CHIPS[i].length > 0 && (
                     <div className={styles.entryChips}>
-                      {e.chips.map((c) => (
+                      {CHIPS[i].map((c) => (
                         <span className={styles.chip} key={c}>
                           {c}
                         </span>
@@ -225,7 +174,7 @@ export default function ExperienceSection() {
               <img
                 className={styles.plate}
                 src="/images/side_img_exp.jpg"
-                alt="Leonardo da Vinci, mechanical study from the Codex Atlanticus"
+                alt={t.experience.plateAlt}
                 width={1366}
                 height={2048}
                 draggable={false}
@@ -233,19 +182,13 @@ export default function ExperienceSection() {
             </div>
 
             <div className={styles.brass}>
-              <div className={`${styles.cap} ${styles.brassCap}`}>in short</div>
-              <div className={styles.brassText}>
-                Two years in research taught me to measure things. One year in
-                industry taught me to ship them. I&apos;d like to do both for
-                you.
+              <div className={`${styles.cap} ${styles.brassCap}`}>
+                {t.experience.asideLabel}
               </div>
+              <div className={styles.brassText}>{t.experience.asideText}</div>
             </div>
 
-            <div className={styles.term}>
-              {`research  ██████░░░░  2 yr
-industry  ████░░░░░░  1.2 yr
-teaching  █░░░░░░░░░  4 mo`}
-            </div>
+            <div className={styles.term}>{t.experience.chart}</div>
           </div>
         </div>
       </div>

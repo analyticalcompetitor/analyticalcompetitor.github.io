@@ -3,12 +3,14 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "../i18n/LanguageProvider";
 import styles from "./SiteFooter.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function SiteFooter() {
   const footerRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
   const marbleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,25 +81,24 @@ export default function SiteFooter() {
         <div className={styles.top}>
           <div>
             <div className={`${styles.cap} ${styles.eyebrow}`}>
-              inscription over the door
+              {t.footer.eyebrow}
             </div>
 
             <div className={`${styles.ms} ${styles.inscription}`}>
-              SPEAK · AND WE BUILD
+              {t.footer.inscription}
             </div>
 
             <div className={styles.lede}>
-              Tell me what&apos;s taking too long and I&apos;ll tell you whether
-              it can be automated. Half an hour, free, no pitch.
+              {t.footer.lede}
             </div>
           </div>
 
           <div className={styles.actions}>
             <a className={`${styles.btn} ${styles.btnSolid}`} href="#">
-              Book a call
+              {t.footer.book}
             </a>
             <a className={`${styles.btn} ${styles.btnGhost}`} href="#">
-              Download CV
+              {t.footer.cv}
             </a>
           </div>
         </div>
@@ -131,10 +132,10 @@ export default function SiteFooter() {
             mathenrique@ufpi.edu.br
           </a>
           <span className={`${styles.cap} ${styles.railText}`}>
-            +55 86 99826 7438
+            {t.footer.phone}
           </span>
           <span className={`${styles.cap} ${styles.railText}`}>
-            Teresina, Piauí, Brazil
+            {t.footer.location}
           </span>
         </div>
       </div>

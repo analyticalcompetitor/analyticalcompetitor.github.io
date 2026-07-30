@@ -3,78 +3,46 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "../i18n/LanguageProvider";
 import styles from "./ProjectsSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Project = {
-  meta: string;
-  title: string;
-  text: string;
-  result: ReactNode;
-  chips: string[];
-  term: ReactNode;
-  href: string;
-};
+/* Stack names and terminal output stay in English in both languages. */
+const CHIPS: string[][] = [
+  ["Python", "LangChain", "Embeddings", "Vector DB"],
+  ["Airflow", "Pandas", "SQL", "LLM", "Docker"],
+  ["Scikit-learn", "spaCy", "NLTK", "Pandas"],
+];
 
-const PROJECTS: Project[] = [
-  {
-    meta: "2026 · retrieval-augmented generation",
-    title: "Institutional document chatbot",
-    text: "A chatbot that answers questions using an institution's own documents instead of guessing. I worked on ingestion, chunking and retrieval quality — the parts that decide whether the answer is right.",
-    result: "staff find policy answers in seconds instead of digging through PDFs.",
-    chips: ["Python", "LangChain", "Embeddings", "Vector DB"],
-    term: (
-      <>
-        retrieve(question, k=5)
-        <br />
-        <span className={styles.dim}>→ 0.87 handbook_p12</span>
-        <br />
-        <span className={styles.dim}>→ 0.81 regulation_2024</span>
-      </>
-    ),
-    href: "#",
-  },
-  {
-    meta: "2025–2026 · medsafe · data engineering",
-    title: "Reports that write themselves",
-    text: "Airflow pipelines that pull data from the database every day, transform it, generate the charts, then hand the numbers and images to an LLM that writes the report.",
-    result:
-      "a manual reporting routine became a scheduled job nobody has to remember.",
-    chips: ["Airflow", "Pandas", "SQL", "LLM", "Docker"],
-    term: (
-      <>
-        dag: daily_report
-        <br />
-        <span className={styles.dim}>extract → transform → plot</span>
-        <br />
-        <span className={styles.dim}>compose → deliver ✓ 4s</span>
-      </>
-    ),
-    href: "#",
-  },
-  {
-    meta: "2021–2023 · ufpi research · nlp",
-    title: "Grading written answers automatically",
-    text: "Two years of research on scoring free-text exam answers by meaning rather than keywords. I compared cosine, Jaccard and Word Mover Distance across Bag of Words, TF-IDF and word embeddings.",
-    result: "a measured answer to which similarity method a teacher should trust.",
-    chips: ["Scikit-learn", "spaCy", "NLTK", "Pandas"],
-    term: (
-      <>
-        cosine(tfidf) = 0.78
-        <br />
-        wmd(embeddings) = 0.41
-        <br />
-        <span className={styles.dim}>n = 1,240 answers</span>
-      </>
-    ),
-    href: "#",
-  },
+const TERMS: ReactNode[] = [
+  <>
+    retrieve(question, k=5)
+    <br />
+    <span className={styles.dim}>→ 0.87 handbook_p12</span>
+    <br />
+    <span className={styles.dim}>→ 0.81 regulation_2024</span>
+  </>,
+  <>
+    dag: daily_report
+    <br />
+    <span className={styles.dim}>extract → transform → plot</span>
+    <br />
+    <span className={styles.dim}>compose → deliver ✓ 4s</span>
+  </>,
+  <>
+    cosine(tfidf) = 0.78
+    <br />
+    wmd(embeddings) = 0.41
+    <br />
+    <span className={styles.dim}>n = 1,240 answers</span>
+  </>,
 ];
 
 export default function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const plateRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -152,7 +120,7 @@ export default function ProjectsSection() {
         <img
           className={styles.plate}
           src="/images/vitruvian-wide.jpg"
-          alt="Leonardo da Vinci's Vitruvian Man"
+          alt={t.projects.plateAlt}
           width={1200}
           height={625}
           draggable={false}
@@ -164,11 +132,11 @@ export default function ProjectsSection() {
           <div className={styles.eyebrow}>
             <div className={styles.numeral}>II</div>
             <div className={`${styles.cap} ${styles.eyebrowLabel}`}>
-              three things i built
+              {t.projects.eyebrow}
             </div>
           </div>
 
-          <h2 className={`${styles.ms} ${styles.title}`}>PROJECTS</h2>
+          <h2 className={`${styles.ms} ${styles.title}`}>{t.projects.title}</h2>
 
           <div className={styles.titleRule}>
             <span>✦</span>
@@ -181,16 +149,13 @@ export default function ProjectsSection() {
         <div className={styles.panelInner}>
           <div className={styles.panelHead}>
             <h3 className={`${styles.ms} ${styles.panelTitle}`}>
-              Built, shipped, still running.
+              {t.projects.panelTitle}
             </h3>
-            <div className={styles.panelLede}>
-              Each one has a plain description, the stack, and what actually
-              came out of it. Click a card for the full case study.
-            </div>
+            <div className={styles.panelLede}>{t.projects.panelLede}</div>
           </div>
 
           <div className={styles.cards}>
-            {PROJECTS.map((p) => (
+            {t.projects.items.map((p, i) => (
               <div className={styles.card} key={p.title}>
                 <div className={`${styles.cap} ${styles.cardMeta}`}>
                   {p.meta}
@@ -203,21 +168,21 @@ export default function ProjectsSection() {
                 <div className={styles.divider} />
 
                 <div className={styles.cardResult}>
-                  <b>Result:</b> {p.result}
+                  <b>{t.projects.resultLabel}</b> {p.result}
                 </div>
 
                 <div className={styles.chips}>
-                  {p.chips.map((c) => (
+                  {CHIPS[i].map((c) => (
                     <span className={styles.chip} key={c}>
                       {c}
                     </span>
                   ))}
                 </div>
 
-                <div className={styles.term}>{p.term}</div>
+                <div className={styles.term}>{TERMS[i]}</div>
 
-                <a className={`${styles.ms} ${styles.cardLink}`} href={p.href}>
-                  Read the case study →
+                <a className={`${styles.ms} ${styles.cardLink}`} href="#">
+                  {t.projects.caseStudy}
                 </a>
               </div>
             ))}

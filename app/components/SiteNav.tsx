@@ -1,21 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "../i18n/LanguageProvider";
+import { LANGS } from "../i18n/dictionary";
 import styles from "./SiteNav.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LINKS = [
-  { href: "#about", label: "who i am" },
-  { href: "#projects", label: "projects" },
-  { href: "#experience", label: "experience" },
-];
-
 export default function SiteNav() {
   const navRef = useRef<HTMLElement>(null);
-  const [lang, setLang] = useState<"EN" | "PT">("EN");
+  const { lang, setLang, t } = useLanguage();
 
   useEffect(() => {
     const nav = navRef.current;
@@ -75,14 +71,20 @@ export default function SiteNav() {
     return () => ctx.revert();
   }, []);
 
+  const links = [
+    { href: "#about", label: t.nav.about },
+    { href: "#projects", label: t.nav.projects },
+    { href: "#experience", label: t.nav.experience },
+  ];
+
   return (
     <nav className={styles.nav} ref={navRef} aria-label="Main">
       <a className={styles.brand} href="#about">
-        Mateus Henrique
+        {t.nav.brand}
       </a>
 
       <div className={styles.links}>
-        {LINKS.map((l) => (
+        {links.map((l) => (
           <a
             className={`${styles.cap} ${styles.link}`}
             href={l.href}
@@ -94,26 +96,20 @@ export default function SiteNav() {
 
         <span className={styles.divider} aria-hidden />
 
-        <button
-          type="button"
-          className={`${styles.lang} ${
-            lang === "EN" ? styles.langActive : ""
-          }`}
-          onClick={() => setLang("EN")}
-          aria-pressed={lang === "EN"}
-        >
-          EN
-        </button>
-        <button
-          type="button"
-          className={`${styles.lang} ${
-            lang === "PT" ? styles.langActive : ""
-          }`}
-          onClick={() => setLang("PT")}
-          aria-pressed={lang === "PT"}
-        >
-          PT
-        </button>
+        {LANGS.map((code) => (
+          <button
+            key={code}
+            type="button"
+            className={`${styles.lang} ${
+              lang === code ? styles.langActive : ""
+            }`}
+            onClick={() => setLang(code)}
+            aria-pressed={lang === code}
+            lang={code === "pt" ? "pt-BR" : "en"}
+          >
+            {code.toUpperCase()}
+          </button>
+        ))}
       </div>
     </nav>
   );
