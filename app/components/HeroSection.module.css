@@ -9,9 +9,15 @@
 */
 
 /* ── Scroll container ── */
+/*
+  320vh of animation + 100vh of extra runway at the end. The extra 100vh
+  keeps the hero PINNED while AboutSection slides up over it, instead of
+  the hero scrolling away underneath. The GSAP timeline still ends at the
+  same scroll position (see `end` in HeroSection.tsx).
+*/
 .wrapper {
   position: relative;
-  height: 320vh;
+  height: 420vh;
   width: 100%;
 }
 

@@ -1,0 +1,373 @@
+/*
+  AboutSection.module.css — "I · WHO I AM"
+  ─────────────────────────────────────────────────────────
+  The overlay is pure CSS, no transform involved:
+
+    · HeroSection.wrapper is 420vh, but its GSAP timeline finishes at
+      320vh — so the hero stays PINNED for a final 100vh of scroll.
+    · This section is pulled up by exactly that 100vh and given a higher
+      z-index, so it rises over the pinned hero on normal scroll.
+
+  Result: the section's top edge enters the viewport at the exact frame
+  the fingertips meet, and covers the hero completely 100vh later.
+  GSAP here only animates the CONTENT inside, never the section itself.
+  ─────────────────────────────────────────────────────────
+*/
+
+/* ── Overlay shell ── */
+.section {
+  position: relative;
+  z-index: 10;
+  margin-top: -100vh;
+  padding: 70px 40px 60px;
+  border-top: 1px solid rgba(200, 160, 80, 0.55);
+  border-bottom: 1px solid rgba(200, 160, 80, 0.3);
+  background: #1c1a17;
+
+  font-family: var(--font-garamond), Georgia, serif;
+  color: rgba(240, 228, 190, 0.88);
+}
+
+/* ── Stone-wall backdrop ──────────────────────────────────
+   about-me-background.jpeg is a wide masonry texture. It's TILED rather
+   than stretched to `cover`, so the stones keep their real scale no
+   matter how tall the section grows. */
+.backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/*
+  The texture is masked so it FADES IN going down: nearly invisible at
+  the top, where the portrait and the statement need a quiet ground, and
+  at full strength toward the bottom, where the section empties out.
+*/
+/* Static clip: holds the fade so the mask stays put while the texture
+   parallaxes underneath it. */
+.stoneClip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  -webkit-mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.22) 30%,
+      rgba(0, 0, 0, 0.6) 68%,
+      rgba(0, 0, 0, 1) 100%);
+  mask-image: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.1) 0%,
+      rgba(0, 0, 0, 0.22) 30%,
+      rgba(0, 0, 0, 0.6) 68%,
+      rgba(0, 0, 0, 1) 100%);
+}
+
+.stone {
+  position: absolute;
+  inset: -12% 0;
+  background: #1c1a17 url("/images/about-me-background.jpeg") 50% 0 repeat;
+  background-size: 1200px auto;
+  filter: grayscale(0.55) sepia(0.35) contrast(1.08) brightness(0.82);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+/* Warm gold wash, so the grey masonry sits inside the brass palette.
+   Anchored low, following the texture. */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 100%,
+      rgba(200, 160, 80, 0.18),
+      transparent 60%);
+  mix-blend-mode: overlay;
+}
+
+/* Darkening veil — heaviest at the top so the copy reads over a near
+   flat ground there, lifting toward the bottom to let the stone through. */
+.veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+      rgba(28, 26, 23, 0.95) 0%,
+      rgba(28, 26, 23, 0.9) 35%,
+      rgba(26, 24, 20, 0.78) 72%,
+      rgba(24, 22, 18, 0.62) 100%),
+    radial-gradient(ellipse at 50% 30%,
+      transparent 30%,
+      rgba(15, 13, 10, 0.45) 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* ── Shared type helpers ── */
+.cap {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+.ms {
+  font-family: var(--font-medieval), "Georgia", serif;
+  font-weight: 400;
+}
+
+/* ── Section header ── */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.numeral {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(200, 160, 80, 0.7);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-medieval), serif;
+  font-size: 14px;
+  color: #e0c98c;
+  flex: none;
+}
+
+.headerLabel {
+  color: rgba(200, 175, 120, 0.75);
+}
+
+.headerRule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(200, 160, 80, 0.5), transparent);
+  transform-origin: left center;
+}
+
+/* ── Two-column body ── */
+.grid {
+  display: grid;
+  grid-template-columns: 390px 1fr;
+  gap: 48px;
+  margin-top: 34px;
+  align-items: start;
+}
+
+/* ── Portrait, hung like a canvas ── */
+.frame {
+  border: 9px solid #8c621c;
+  outline: 1px solid rgba(200, 160, 80, 0.55);
+  outline-offset: 0;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(255, 235, 150, 0.25);
+  background: #d9c99e;
+}
+
+.portrait {
+  position: relative;
+  aspect-ratio: 0.82;
+  background: #c9b98e url("/images/profile.png") 50% 18% / cover;
+  filter: sepia(0.28) contrast(0.96);
+}
+
+.portraitVeil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(60, 42, 12, 0.55));
+}
+
+/* ── Brass plate ── */
+.brass {
+  background: rgba(240, 228, 190, 0.94);
+  border: 1px solid rgba(140, 98, 28, 0.75);
+  outline: 1px solid rgba(200, 160, 80, 0.22);
+  outline-offset: 5px;
+  padding: 12px 14px;
+  margin-top: 16px;
+}
+
+.brassCap {
+  color: rgba(90, 62, 16, 0.7);
+}
+
+.brassTitle {
+  font-size: 20px;
+  color: #2a1a04;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+
+/* ── Terminal block ── */
+.term {
+  background: #0d1109;
+  border: 1px solid rgba(126, 224, 138, 0.32);
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1.8;
+  color: #7ee08a;
+  padding: 10px 12px;
+  margin-top: 14px;
+}
+
+/* ── The statement ── */
+.statement {
+  margin: 0;
+  font-size: 52px;
+  line-height: 1.06;
+  color: #f0e2b8;
+  letter-spacing: 0.01em;
+}
+
+.lede {
+  font-size: 19px;
+  line-height: 1.68;
+  color: rgba(240, 228, 190, 0.88);
+  margin-top: 22px;
+  max-width: 640px;
+  text-wrap: pretty;
+}
+
+.body {
+  font-size: 19px;
+  line-height: 1.68;
+  color: rgba(240, 228, 190, 0.78);
+  margin-top: 16px;
+  max-width: 640px;
+  text-wrap: pretty;
+}
+
+.dropCap {
+  float: left;
+  font-family: var(--font-medieval), serif;
+  font-size: 58px;
+  line-height: 0.8;
+  color: #8c621c;
+  margin: 4px 10px 0 0;
+}
+
+/* ── Ornamental rule ── */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(200, 160, 80, 0.9);
+  margin: 32px 0 20px;
+}
+
+.rule::before,
+.rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(200, 160, 80, 0.6),
+      transparent);
+}
+
+.ruleLabel {
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+}
+
+/* ── Capability cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid rgba(200, 160, 80, 0.35);
+  background: rgba(240, 228, 190, 0.05);
+  padding: 18px 20px;
+  transition: background 0.3s ease, border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.card:hover {
+  background: rgba(240, 228, 190, 0.09);
+  border-color: rgba(200, 160, 80, 0.65);
+  transform: translateY(-3px);
+}
+
+.cardIndex {
+  color: rgba(200, 175, 120, 0.7);
+}
+
+.cardTitle {
+  font-size: 24px;
+  color: #f0e2b8;
+  margin-top: 5px;
+  line-height: 1.15;
+}
+
+.cardText {
+  font-size: 16.5px;
+  line-height: 1.55;
+  color: rgba(240, 228, 190, 0.72);
+  margin-top: 9px;
+}
+
+/* ── Skill chips ── */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 40px;
+}
+
+.chip {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid rgba(200, 160, 80, 0.45);
+  color: rgba(232, 217, 174, 0.8);
+  padding: 3px 8px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+  }
+
+  .statement {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 820px) {
+  .section {
+    padding: 52px 22px 48px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .statement {
+    font-size: 32px;
+  }
+
+  .lede,
+  .body {
+    font-size: 17px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion: GSAP entrances are skipped entirely in the component,
+   so the section renders in its resting state. */

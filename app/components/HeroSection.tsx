@@ -107,8 +107,10 @@ export default function HeroSection() {
         scrollTrigger: {
           trigger: wrapper,
           start: "top top",
-          end: "bottom bottom",
-          scrub: 0.6,
+          // Stop 100vh before the wrapper ends: that last 100vh is the
+          // runway AboutSection uses to slide up over the pinned hero.
+          end: "bottom bottom-=100vh",
+          scrub: 0.9,
           invalidateOnRefresh: true,
         },
       });
