@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Emphasis, Lines, useLanguage } from "../i18n/LanguageProvider";
+import { CV_URL } from "../links";
 import styles from "./ExperienceSection.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -120,7 +121,12 @@ export default function ExperienceSection() {
           <h2 className={`${styles.ms} ${styles.title}`}>
             {t.experience.title}
           </h2>
-          <a className={`${styles.ms} ${styles.cvLink}`} href="#">
+          <a
+            className={`${styles.ms} ${styles.cvLink}`}
+            href={CV_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {t.experience.cv}
           </a>
         </div>

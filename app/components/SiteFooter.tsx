@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../i18n/LanguageProvider";
+import { CV_URL, WHATSAPP_URL } from "../links";
 import styles from "./SiteFooter.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -94,10 +95,20 @@ export default function SiteFooter() {
           </div>
 
           <div className={styles.actions}>
-            <a className={`${styles.btn} ${styles.btnSolid}`} href="#">
+            <a
+              className={`${styles.btn} ${styles.btnSolid}`}
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t.footer.book}
             </a>
-            <a className={`${styles.btn} ${styles.btnGhost}`} href="#">
+            <a
+              className={`${styles.btn} ${styles.btnGhost}`}
+              href={CV_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t.footer.cv}
             </a>
           </div>
