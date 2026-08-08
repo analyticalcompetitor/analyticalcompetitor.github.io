@@ -119,11 +119,11 @@ export default function SiteFooter() {
           </a>
           <a
             className={`${styles.cap} ${styles.railLink}`}
-            href="https://www.linkedin.com/in/mathenrique"
+            href="https://www.linkedin.com/in/mathenrifs/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            linkedin / mathenrique
+            linkedin / mathenrifs
           </a>
           <a
             className={`${styles.cap} ${styles.railLink}`}
