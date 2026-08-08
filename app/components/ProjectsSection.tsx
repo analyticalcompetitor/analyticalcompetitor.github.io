@@ -10,18 +10,25 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* Stack names and terminal output stay in English in both languages. */
 const CHIPS: string[][] = [
-  ["Python", "LangChain", "Embeddings", "Vector DB"],
+  ["Python", "ChromaDB", "Embeddings", "Streamlit", "ranx"],
+  ["Python", "PubMed API", "Unpaywall", "RAG", "Streamlit"],
   ["Airflow", "Pandas", "SQL", "LLM", "Docker"],
-  ["Scikit-learn", "spaCy", "NLTK", "Pandas"],
 ];
 
 const TERMS: ReactNode[] = [
   <>
-    retrieve(question, k=5)
+    retrieve(q, candidate_k=10)
     <br />
-    <span className={styles.dim}>→ 0.87 handbook_p12</span>
+    <span className={styles.dim}>→ cos 0.62 ppc_p12</span>
     <br />
-    <span className={styles.dim}>→ 0.81 regulation_2024</span>
+    <span className={styles.dim}>max_k=6 · threshold=0.25</span>
+  </>,
+  <>
+    harvest: pubmed → pmc → unpaywall
+    <br />
+    <span className={styles.dim}>window = last 30 days</span>
+    <br />
+    <span className={styles.dim}>dois → fulltext → index ✓</span>
   </>,
   <>
     dag: daily_report
@@ -29,13 +36,6 @@ const TERMS: ReactNode[] = [
     <span className={styles.dim}>extract → transform → plot</span>
     <br />
     <span className={styles.dim}>compose → deliver ✓ 4s</span>
-  </>,
-  <>
-    cosine(tfidf) = 0.78
-    <br />
-    wmd(embeddings) = 0.41
-    <br />
-    <span className={styles.dim}>n = 1,240 answers</span>
   </>,
 ];
 
@@ -181,9 +181,36 @@ export default function ProjectsSection() {
 
                 <div className={styles.term}>{TERMS[i]}</div>
 
-                <a className={`${styles.ms} ${styles.cardLink}`} href="#">
-                  {t.projects.caseStudy}
-                </a>
+                {p.note && (
+                  <div className={`${styles.cap} ${styles.cardNote}`}>
+                    {p.note}
+                  </div>
+                )}
+
+                {(p.demo || p.repo) && (
+                  <div className={styles.cardLinks}>
+                    {p.demo && (
+                      <a
+                        className={`${styles.ms} ${styles.cardLink}`}
+                        href={p.demo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {p.repo ? t.projects.demoLabel : t.projects.siteLabel}
+                      </a>
+                    )}
+                    {p.repo && (
+                      <a
+                        className={`${styles.ms} ${styles.cardLink}`}
+                        href={p.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t.projects.repoLabel}
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>

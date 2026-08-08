@@ -39,13 +39,13 @@ const en = {
     availability: "AI Engineer · open to remote roles and freelance builds",
     statement: ["I build the machinery", "that makes AI actually useful."],
     dropCap: "M",
-    lede: "y name is Mateus Henrique. I'm a Computer Science student at the Federal University of Piauí, graduating in July 2026, and I've spent the last five years doing one thing: taking messy real-world data and turning it into systems that run by themselves.",
-    body: "Two years of NLP research. A year building ETL pipelines and LLM-generated reports for a health-tech company. A retrieval chatbot that answers from an institution's own documents. Not demos — things that stayed running after I walked away.",
+    lede: "y name is Mateus Henrique, and I hold a Computer Science degree from the Federal University of Piauí, focused on building applied AI systems — Python, natural language processing, RAG, and data pipelines. My work sits at the boundary between data engineering and AI engineering: making sure information arrives clean, is retrieved accurately, and supports an answer someone can actually act on.",
+    body: "As a PIBIC research fellow at UFPI, I worked in natural language processing. At MedSafe, a health-tech company, I built data pipelines and LLM report automation orchestrated in Airflow, combining data transformation, chart generation, and text production into a single workflow. I've also developed RAG solutions that connect institutional knowledge to accessible conversational interfaces, working with embeddings, vector databases, and retrieval evaluation. I'm interested in AI Engineer opportunities, contributing to production-oriented systems involving information retrieval, backend workflows, and applied machine learning.",
     capabilitiesLabel: "what i can build for you",
     capabilities: [
       {
         index: "i",
-        title: "Automate the work nobody wants to do",
+        title: "Automations",
         text: "Spreadsheets cleaned, reports generated, sites scraped, jobs scheduled. Python, Pandas, Airflow, Playwright.",
       },
       {
@@ -72,70 +72,88 @@ const en = {
     plateAlt: "Leonardo da Vinci's Vitruvian Man",
     panelTitle: "Built, shipped, still running.",
     panelLede:
-      "Each one has a plain description, the stack, and what actually came out of it. Click a card for the full case study.",
+      "Each one has a plain description, the stack, and what actually came out of it. Two are live — open them and ask something.",
     resultLabel: "Result:",
-    caseStudy: "Read the case study →",
+    demoLabel: "Open the live app →",
+    repoLabel: "Source on GitHub →",
+    siteLabel: "Visit MedSafe →",
     items: [
       {
-        meta: "2026 · retrieval-augmented generation",
-        title: "Institutional document chatbot",
-        text: "A chatbot that answers questions using an institution's own documents instead of guessing. I worked on ingestion, chunking and retrieval quality — the parts that decide whether the answer is right.",
+        meta: "2026 · rag · ufpi",
+        title: "DC/UFPI academic assistant",
+        text: "A RAG assistant that answers student questions from the Computer Science course's own official documents — curriculum project, regulations, flowchart, academic calendar, faculty and PIBIC research calls. I built the ingestion and per-category chunking, a threshold retriever over ChromaDB, hybrid retrieval with Reciprocal Rank Fusion, and an evaluation suite that compares six embedding models with MRR, NDCG@6 and Recall@6.",
         result:
-          "staff find policy answers in seconds instead of digging through PDFs.",
+          "every answer cites the document it came from, and the embedding model was chosen by metric and significance test, not by intuition.",
+        note: "",
+        demo: "https://compchat.streamlit.app/",
+        repo: "https://github.com/analyticalcompetitor/compChatUfpi",
+      },
+      {
+        meta: "2026 · rag · medical literature",
+        title: "ENT research assistant",
+        text: "A knowledge base over recent otolaryngology literature. A harvesting pipeline collects DOIs and metadata from PubMed, pulls full text from PMC Open Access, resolves the rest through Unpaywall and tracks the top ENT journals via RSS — then that corpus becomes a retrieval layer you can ask questions in plain language.",
+        result:
+          "keeping up with new papers becomes a question you ask instead of a search you run.",
+        note: "",
+        demo: "https://ent-research-assistant.streamlit.app/",
+        repo: "https://github.com/analyticalcompetitor/ENT-research-assistant",
       },
       {
         meta: "2025–2026 · medsafe · data engineering",
         title: "Reports that write themselves",
-        text: "Airflow pipelines that pull data from the database every day, transform it, generate the charts, then hand the numbers and images to an LLM that writes the report.",
+        text: "Airflow pipelines that pull data from the database every day, transform it, generate the charts, then hand the numbers and the images to an LLM that writes the report. Scheduling, retries and delivery included — the whole routine runs unattended.",
         result:
           "a manual reporting routine became a scheduled job nobody has to remember.",
-      },
-      {
-        meta: "2021–2023 · ufpi research · nlp",
-        title: "Grading written answers automatically",
-        text: "Two years of research on scoring free-text exam answers by meaning rather than keywords. I compared cosine, Jaccard and Word Mover Distance across Bag of Words, TF-IDF and word embeddings.",
-        result:
-          "a measured answer to which similarity method a teacher should trust.",
+        note: "Proprietary MedSafe project — the code isn't public.",
+        demo: "https://medsafebrasil.com.br/",
+        repo: "",
       },
     ],
   },
 
   experience: {
     eyebrow: "where i've worked and studied",
-    title: "Five years, in order.",
+    title: "Where I've worked, in order.",
     cv: "Download the full CV (PDF) →",
     plateAlt: "Leonardo da Vinci, mechanical study from the Codex Atlanticus",
     asideLabel: "in short",
     asideText:
-      "Two years in research taught me to measure things. One year in industry taught me to ship them. I'd like to do both for you.",
-    chart: `research  ██████░░░░  2 yr
-industry  ████░░░░░░  1.2 yr
-teaching  █░░░░░░░░░  4 mo`,
+      "Research taught me to measure things. Industry taught me to ship them. I'd like to do both for you.",
+    chart: `industry  ██████░░░░  medsafe
+research  ████░░░░░░  pibic
+teaching  ██░░░░░░░░  data struct`,
     entries: [
       {
-        date: ["Feb 2025", "— Mar 2026"],
-        duration: "1 yr 2 mo",
-        role: "Tech Intern · Medsafe",
+        date: ["Jan 2025", "— Jun 2026"],
+        duration: "medsafe",
+        role: "Tech Intern · MedSafe",
         place: "Teresina, Brazil · health tech",
-        text: "Built Airflow ETL pipelines that transformed database data, generated visual outputs, and fed both structured data and images into LLM-based automated reporting. Cleaned and structured Excel and CSV datasets with Python and Pandas. Also worked on the front end in Angular for the *Piauí Primeira Infância* early-childhood system.",
+        text: "As a Technology Intern, I divided my focus between front-end development and data. In web development, I worked with Angular to build the *Piauí Primeira Infância* system. On a separate front, I performed data cleaning and structuring (Excel, CSV) using Python and Pandas. Additionally, I was responsible for orchestration using Airflow, creating specific workflows to both monitor routines and generate automated reports from the database.",
       },
       {
-        date: ["Aug 2021", "— Nov 2023"],
-        duration: "2 yr 4 mo",
+        date: ["Oct 2023", "— 2024"],
+        duration: "jaguaracambé",
+        role: "Developer · Jaguaracambé",
+        place: "wildlife conservation NGO",
+        text: "Jaguaracambé is a wild animal conservation NGO, where I had the opportunity to contribute to this initiative that I admire so much. I was responsible for building their website, as well as participating in the environmental education project they coordinate.",
+      },
+      {
+        date: ["Jul 2022", "— Jun 2023"],
+        duration: "pibic",
         role: "Undergraduate Researcher (PIBIC) · UFPI",
         place: "Department of Computer Science",
-        text: "Researched automatic grading of free-text answers using NLP similarity methods, and built the experimental evaluation pipelines that compared them.",
+        text: "I conducted research on an automatic correction system for free-text answers. The project involved analyzing existing studies in the field and implementing various similarity measurement techniques. I compared the performance of Cosine Similarity, Jaccard Index, and Word Mover's Distance using different vector space models, including Bag of Words, TF-IDF, and word embeddings.",
       },
       {
-        date: ["Aug 2021", "— Nov 2021"],
-        duration: "4 mo",
+        date: ["Aug 2022", "— Nov 2022"],
+        duration: "monitoria",
         role: "Data Structures Teaching Assistant · UFPI",
         place: "",
-        text: "Reviewed assignments and exams and taught linked lists, stacks, queues, trees, graphs, hash tables, heaps and algorithmic complexity one student at a time.",
+        text: "Graded assignments and exams, and provided feedback to students. Also provided one-on-one support to students, helping them to understand and implement data structures and algorithms. Some of the topics covered: linked lists, stacks, queues, trees and graphs, hash tables, heaps, time and space complexity, algorithmic design.",
       },
       {
-        date: ["→ Jul 2026"],
-        duration: "graduating",
+        date: ["Jul 2026"],
+        duration: "graduated",
         role: "BSc Computer Science · Federal University of Piauí",
         place: "",
         text: "Coursework in Artificial Intelligence, Natural Language Processing, and Topics in AI with an emphasis on RAG applications.",
@@ -181,13 +199,13 @@ const pt: Dict = {
       "Engenheiro de IA · aberto a vagas remotas e projetos freelance",
     statement: ["Eu construo a máquina", "que faz a IA ser realmente útil."],
     dropCap: "M",
-    lede: "eu nome é Mateus Henrique. Sou estudante de Ciência da Computação na Universidade Federal do Piauí, com formatura em julho de 2026, e passei os últimos cinco anos fazendo uma coisa só: pegar dado bagunçado do mundo real e transformar em sistema que roda sozinho.",
-    body: "Dois anos de pesquisa em PLN. Um ano construindo pipelines de ETL e relatórios gerados por LLM em uma healthtech. Um chatbot que responde a partir dos documentos da própria instituição. Nada de demo — coisas que continuaram rodando depois que eu saí.",
+    lede: "eu nome é Mateus Henrique e sou formado em Ciência da Computação pela Universidade Federal do Piauí, com foco no desenvolvimento de sistemas de IA aplicada — Python, processamento de linguagem natural, RAG e pipelines de dados. Meu trabalho está na fronteira entre engenharia de dados e engenharia de IA: garantir que a informação chegue limpa, seja recuperada com precisão e sustente uma resposta que alguém possa usar para decidir algo.",
+    body: "Como pesquisador PIBIC na UFPI, atuei em processamento de linguagem natural. Na MedSafe, healthtech, construí pipelines de dados e automação de relatórios com LLM, orquestrados em Airflow, unindo transformação de dados, geração de gráficos e produção de texto num único fluxo. Também desenvolvi soluções de RAG que conectam conhecimento institucional a interfaces conversacionais acessíveis, trabalhando com embeddings, bancos vetoriais e avaliação de recuperação. Tenho interesse em oportunidades como AI Engineer, contribuindo para sistemas voltados à produção com recuperação de informação, workflows de backend e machine learning aplicado.",
     capabilitiesLabel: "o que eu posso construir para você",
     capabilities: [
       {
         index: "i",
-        title: "Automatizar o trabalho que ninguém quer fazer",
+        title: "Automatizações",
         text: "Planilhas limpas, relatórios gerados, sites raspados, rotinas agendadas. Python, Pandas, Airflow, Playwright.",
       },
       {
@@ -202,8 +220,8 @@ const pt: Dict = {
       },
       {
         index: "iv",
-        title: "Entregar a coisa inteira",
-        text: "Angular, Next.js, SQL e NoSQL, Docker. Front-end, back-end e o deploy no meio do caminho.",
+        title: "Aplicações completas",
+        text: "Next.js, SQL e NoSQL, Docker, fastApi, nodejs. Front-end, back-end e o deploy de ponta a ponta.",
       },
     ],
   },
@@ -214,70 +232,88 @@ const pt: Dict = {
     plateAlt: "O Homem Vitruviano, de Leonardo da Vinci",
     panelTitle: "Feito, entregue e ainda rodando.",
     panelLede:
-      "Cada um tem uma descrição direta, a stack e o que de fato saiu dali. Clique num card para ver o estudo de caso completo.",
+      "Cada um tem uma descrição direta, a stack e o que de fato saiu dali. Dois estão no ar — abra e faça uma pergunta.",
     resultLabel: "Resultado:",
-    caseStudy: "Ver o estudo de caso →",
+    demoLabel: "Abrir o app →",
+    repoLabel: "Código no GitHub →",
+    siteLabel: "Conhecer a MedSafe →",
     items: [
       {
-        meta: "2026 · geração aumentada por recuperação",
-        title: "Chatbot de documentos institucionais",
-        text: "Um chatbot que responde perguntas usando os documentos da própria instituição, em vez de chutar. Trabalhei na ingestão, no chunking e na qualidade da recuperação — as partes que decidem se a resposta está certa.",
+        meta: "2026 · rag · ufpi",
+        title: "Assistente acadêmico do DC/UFPI",
+        text: "Um assistente em RAG que responde dúvidas de aluno a partir dos documentos oficiais do curso de Ciência da Computação — PPC, regulamento, fluxograma, calendário acadêmico, corpo docente e editais do PIBIC. Construí a ingestão e o chunking por categoria de documento, um retriever com threshold sobre o ChromaDB, recuperação híbrida com Reciprocal Rank Fusion e uma suíte de avaliação que compara seis modelos de embedding por MRR, NDCG@6 e Recall@6.",
         result:
-          "a equipe acha resposta sobre norma interna em segundos, sem garimpar PDF.",
+          "toda resposta cita o documento de onde veio, e o modelo de embedding foi escolhido por métrica e teste de significância, não por intuição.",
+        note: "",
+        demo: "https://compchat.streamlit.app/",
+        repo: "https://github.com/analyticalcompetitor/compChatUfpi",
+      },
+      {
+        meta: "2026 · rag · literatura médica",
+        title: "Assistente de pesquisa em otorrinolaringologia",
+        text: "Uma base de conhecimento sobre a literatura recente de otorrinolaringologia. Um pipeline de coleta busca DOIs e metadados no PubMed, baixa o texto completo do PMC Open Access, resolve o restante pelo Unpaywall e acompanha os principais periódicos da área por RSS — e esse corpus vira uma camada de recuperação que você consulta em linguagem natural.",
+        result:
+          "acompanhar artigo novo vira uma pergunta que se faz, e não uma busca que se repete.",
+        note: "",
+        demo: "https://ent-research-assistant.streamlit.app/",
+        repo: "https://github.com/analyticalcompetitor/ENT-research-assistant",
       },
       {
         meta: "2025–2026 · medsafe · engenharia de dados",
         title: "Relatórios que se escrevem sozinhos",
-        text: "Pipelines em Airflow que puxam os dados do banco todo dia, transformam, geram os gráficos e entregam números e imagens para um LLM que escreve o relatório.",
+        text: "Pipelines em Airflow que puxam os dados do banco todo dia, transformam, geram os gráficos e entregam números e imagens para um LLM que escreve o relatório. Agendamento, retentativa e entrega inclusos — a rotina inteira roda sem ninguém acompanhar.",
         result:
           "uma rotina manual de relatório virou um job agendado que ninguém precisa lembrar.",
-      },
-      {
-        meta: "2021–2023 · pesquisa ufpi · pln",
-        title: "Correção automática de respostas discursivas",
-        text: "Dois anos de pesquisa sobre pontuar resposta discursiva por significado, e não por palavra-chave. Comparei cosseno, Jaccard e Word Mover Distance entre Bag of Words, TF-IDF e word embeddings.",
-        result:
-          "uma resposta medida sobre em qual método de similaridade o professor pode confiar.",
+        note: "Projeto proprietário da MedSafe — o código não é público.",
+        demo: "https://medsafebrasil.com.br/",
+        repo: "",
       },
     ],
   },
 
   experience: {
     eyebrow: "onde eu trabalhei e estudei",
-    title: "Cinco anos, em ordem.",
+    title: "Onde eu trabalhei, em ordem.",
     cv: "Baixar o CV completo (PDF) →",
     plateAlt: "Leonardo da Vinci, estudo mecânico do Códice Atlântico",
     asideLabel: "em resumo",
     asideText:
-      "Dois anos de pesquisa me ensinaram a medir as coisas. Um ano de indústria me ensinou a entregar. Quero fazer as duas para você.",
-    chart: `pesquisa  ██████░░░░  2 anos
-indústria ████░░░░░░  1,2 ano
-monitoria █░░░░░░░░░  4 meses`,
+      "A pesquisa me ensinou a medir as coisas. A indústria me ensinou a entregar. Quero fazer as duas para você.",
+    chart: `indústria ██████░░░░  medsafe
+pesquisa  ████░░░░░░  pibic
+monitoria ██░░░░░░░░  estrut. dados`,
     entries: [
       {
-        date: ["Fev 2025", "— Mar 2026"],
-        duration: "1 ano 2 meses",
-        role: "Estagiário de Tecnologia · Medsafe",
+        date: ["Jan 2025", "— Jun 2026"],
+        duration: "medsafe",
+        role: "Estagiário de Tecnologia · MedSafe",
         place: "Teresina, Brasil · healthtech",
-        text: "Construí pipelines de ETL em Airflow que transformavam dados do banco, geravam saídas visuais e alimentavam com dados estruturados e imagens um relatório automatizado escrito por LLM. Limpei e estruturei bases em Excel e CSV com Python e Pandas. Também trabalhei no front-end em Angular do sistema *Piauí Primeira Infância*.",
+        text: "Como Estagiário de Tecnologia, dividi minha atuação entre o desenvolvimento front-end e dados. No desenvolvimento web, atuei com Angular na construção do sistema *Piauí Primeira Infância*. Em uma frente distinta, realizei a limpeza e estruturação de dados (Excel, CSV) utilizando Python e Pandas. Além disso, fui responsável pela orquestração com Airflow, criando fluxos específicos tanto para monitorar rotinas quanto para gerar relatórios automatizados a partir do banco de dados.",
       },
       {
-        date: ["Ago 2021", "— Nov 2023"],
-        duration: "2 anos 4 meses",
+        date: ["Out 2023", "— 2024"],
+        duration: "jaguaracambé",
+        role: "Desenvolvedor · Jaguaracambé",
+        place: "ONG de preservação de animais selvagens",
+        text: "Participei da criação do site da Jaguaracambé, uma ONG voltada para a preservação de animais selvagens, uma iniciativa que admiro profundamente. Contribuí para o desenvolvimento do site e atuei também em projetos de educação ambiental que a organização coordena.",
+      },
+      {
+        date: ["Jul 2022", "— Jun 2023"],
+        duration: "pibic",
         role: "Pesquisador de Iniciação Científica (PIBIC) · UFPI",
         place: "Departamento de Ciência da Computação",
-        text: "Pesquisei correção automática de respostas discursivas com métodos de similaridade de PLN, e construí os pipelines experimentais que compararam esses métodos.",
+        text: "Conduzi uma pesquisa sobre correção automática para questões discursivas. O projeto envolveu a análise de trabalhos relacionados e a implementação de diferentes técnicas de medidas de similaridade. Comparei o desempenho de diversas métricas de similaridade (como Cosine Similarity, Jaccard Index e Word Mover's Distance) utilizando diferentes modelos de representação vetorial, incluindo Bag of Words, TF-IDF e word embeddings.",
       },
       {
-        date: ["Ago 2021", "— Nov 2021"],
-        duration: "4 meses",
+        date: ["Ago 2022", "— Nov 2022"],
+        duration: "monitoria",
         role: "Monitor de Estrutura de Dados · UFPI",
         place: "",
-        text: "Corrigi listas e provas e ensinei listas encadeadas, pilhas, filas, árvores, grafos, tabelas hash, heaps e complexidade de algoritmos, um aluno por vez.",
+        text: "Corrigi provas e trabalhos, além de fornecer feedback para os alunos. Também ofereci suporte individualizado, ajudando-os a entender e implementar estruturas de dados e algoritmos. Alguns dos tópicos abordados incluíam: listas encadeadas, pilhas, filas, árvores e grafos, tabelas hash, heaps, análise de tempo e espaço de execução e design de algoritmos.",
       },
       {
-        date: ["→ Jul 2026"],
-        duration: "formando",
+        date: ["Jul 2026"],
+        duration: "formado",
         role: "Bacharelado em Ciência da Computação · Universidade Federal do Piauí",
         place: "",
         text: "Disciplinas de Inteligência Artificial, Processamento de Linguagem Natural e Tópicos em IA com ênfase em aplicações de RAG.",
@@ -288,7 +324,7 @@ monitoria █░░░░░░░░░  4 meses`,
   footer: {
     eyebrow: "inscrição sobre a porta",
     inscription: "FALE · E NÓS CONSTRUÍMOS",
-    lede: "Me conta o que está demorando demais e eu te digo se dá para automatizar. Meia hora, de graça, sem enrolação.",
+    lede: "Me conta o que está demorando demais e eu te digo se dá para automatizar. Entre em contato!",
     book: "Agendar uma conversa",
     cv: "Baixar o CV",
     phone: "+55 86 99826 7438",

@@ -10,9 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* Stack names stay in English in both languages. */
 const CHIPS: string[][] = [
-  ["Airflow", "Python", "Pandas", "LLM", "Angular"],
-  ["Scikit-learn", "spaCy", "NLTK", "Research"],
-  [],
+  ["Python", "Pandas", "Airflow", "Docker", "LLMs", "Angular", "TypeScript"],
+  ["JavaScript", "Next.js", "React", "HTML", "CSS"],
+  ["Python", "Scikit-learn", "Pandas", "spaCy", "NLTK", "Gensim"],
+  ["Java"],
   [],
 ];
 

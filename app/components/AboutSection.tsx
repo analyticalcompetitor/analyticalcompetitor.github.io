@@ -21,8 +21,11 @@ const CHIPS = [
   "SQL / NoSQL",
   "Docker",
   "Playwright",
+  "Selenium",
+  "fastAPI",
   "Angular",
   "Next.js",
+  "n8n"
 ];
 
 export default function AboutSection() {
