@@ -11,7 +11,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function SiteFooter() {
   const footerRef = useRef<HTMLElement>(null);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const marbleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export default function SiteFooter() {
             </a>
             <a
               className={`${styles.btn} ${styles.btnGhost}`}
-              href={CV_URL}
+              href={CV_URL[lang]}
               target="_blank"
               rel="noopener noreferrer"
             >

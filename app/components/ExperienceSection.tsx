@@ -21,7 +21,7 @@ const CHIPS: string[][] = [
 export default function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const codexRef = useRef<HTMLDivElement>(null);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -123,7 +123,7 @@ export default function ExperienceSection() {
           </h2>
           <a
             className={`${styles.ms} ${styles.cvLink}`}
-            href={CV_URL}
+            href={CV_URL[lang]}
             target="_blank"
             rel="noopener noreferrer"
           >
