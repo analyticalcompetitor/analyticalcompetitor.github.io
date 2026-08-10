@@ -162,7 +162,7 @@ teaching  ██░░░░░░░░  data struct`,
   },
 
   footer: {
-    eyebrow: "inscription over the door",
+    eyebrow: "CREATION BEGINS IN CONTACT",
     inscription: "SPEAK · AND WE BUILD",
     lede: "Tell me what's taking too long and I'll tell you whether it can be automated. Half an hour, free, no pitch.",
     book: "Book a call",
@@ -322,7 +322,7 @@ monitoria ██░░░░░░░░  estrut. dados`,
   },
 
   footer: {
-    eyebrow: "inscrição sobre a porta",
+    eyebrow: "A CRIAÇÃO COMEÇA NO CONTATO",
     inscription: "FALE · E NÓS CONSTRUÍMOS",
     lede: "Me conta o que está demorando demais e eu te digo se dá para automatizar. Entre em contato!",
     book: "Agendar uma conversa",
